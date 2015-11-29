@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CommandUtility;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CommandUtilityTest
 {
@@ -153,6 +154,48 @@ namespace CommandUtilityTest
             {
                 keywordArgumentParser.DivideArguments(new string[] { "--keyword-argument" });
             });
+        }
+
+        [TestMethod]
+        public void TestApplyArguments()
+        {
+            {
+                bool found = false;
+                Assert.IsTrue(
+                    flagArgumentParser.ApplyFlagArgumentValue(new string[] { "--flag-argument" }, (value) => { found = true; }).SequenceEqual(new List<string>()));
+                Assert.IsTrue(found);
+            }
+
+            {
+                Assert.IsTrue(
+                    flagArgumentParser.ApplyFlagArgumentValue(new string[] { "restArgument" }, (value) => {}).SequenceEqual(new List<string>() { "restArgument" }));
+            }
+
+            {
+                bool found = false;
+                Assert.IsTrue(
+                    keywordArgumentParser.ApplyKeywordArgumentValue(new string[] { "--keyword-argument", "value" }, (name, value) => { found = true; }).Count() == 0);
+                Assert.IsTrue(found);
+            }
+
+            {
+                AssertUtility.Throws<LackKeywordArgumentValueException>(() =>
+                {
+                    Assert.AreEqual(
+                        0,
+                        keywordArgumentParser.ApplyKeywordArgumentValue(new string[] { "--keyword-argument" }, (name, value) => { }).Count());
+                });
+            }
+
+            {
+                bool found = false;
+                Assert.IsTrue(
+                    parser.ApplyPositionalArgumentValue(new string[] { "value1", "value2" }, (value) => { found = true; }).SequenceEqual(new string[] { "value2" }));
+                Assert.IsTrue(found);
+            }
+
+            Assert.IsTrue(
+                parser3.ApplyPositionalArgumentValue(new string[] { "value" }, (value) => { }).SequenceEqual(new string[] { }));
         }
 
         [TestMethod]

@@ -199,6 +199,64 @@ namespace CommandUtility
             return ret;
         }
 
+        public IEnumerable<string> ApplyFlagArgumentValue(IEnumerable<string> arguments, Action<string> action)
+        {
+            var enumerator = arguments.GetEnumerator();
+            while(enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+
+                if(IsFlagArgumentValue(current))
+                {
+                    action(current);
+                }
+                else
+                {
+                    yield return current;
+                }
+            }
+        }
+
+        public IEnumerable<string> ApplyKeywordArgumentValue(IEnumerable<string> arguments, Action<string, string> action)
+        {
+            var enumerator = arguments.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var current = enumerator.Current;
+
+                if (IsKeywordArgumentValue(current))
+                {
+                    if (enumerator.MoveNext())
+                    {
+                        action(current, enumerator.Current);
+                    }
+                    else
+                    {
+                        throw new LackKeywordArgumentValueException("lack value after: " + current);
+                    }
+                }
+                else
+                {
+                    yield return current;
+                }
+            }
+        }
+
+        public IEnumerable<string> ApplyPositionalArgumentValue(IEnumerable<string> arguments, Action<string> action)
+        {
+            var argumentEnumerator = PositionalArguments.GetEnumerator();
+            var valueEnumerator = arguments.GetEnumerator();
+            while (argumentEnumerator.MoveNext() && valueEnumerator.MoveNext())
+            {
+                action(valueEnumerator.Current);
+            }
+
+            while(valueEnumerator.MoveNext())
+            {
+                yield return valueEnumerator.Current;
+            }
+        }
+
         public CommandArgumentType IdentifyArgumentType(string v)
         {
             if(IsKeywordArgumentValue(v))

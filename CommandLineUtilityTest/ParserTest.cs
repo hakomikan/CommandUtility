@@ -40,10 +40,19 @@ namespace CommandUtilityTest
             }
         }
 
+        class TestOneKeywordCommand
+        {
+            public static int Main(string keywordArgument = "defaultValue")
+            {
+                return 0;
+            }
+        }
+
         CommandArgumentsParser parser = new CommandArgumentsParser(typeof(TestCommand));
         CommandArgumentsParser parser2 = new CommandArgumentsParser(typeof(TestCommand2));
         CommandArgumentsParser parser3 = new CommandArgumentsParser(typeof(TestCommand3));
         CommandArgumentsParser flagArgumentParser = new CommandArgumentsParser(typeof(TestOneFlagCommand));
+        CommandArgumentsParser keywordArgumentParser = new CommandArgumentsParser(typeof(TestOneKeywordCommand));
 
         [TestMethod]
         public void TestFirstParser()
@@ -98,7 +107,28 @@ namespace CommandUtilityTest
         }
 
         [TestMethod]
-        public void TestArgumentMatch()
+        public void TestIdentifyArgumentType()
+        {
+            Assert.IsTrue(parser.IsPositionalArgumentValue("value"));
+            Assert.IsFalse(parser.IsFlagArgumentValue("value"));
+            Assert.IsTrue(flagArgumentParser.IsFlagArgumentValue("--flag-argument"));
+            Assert.IsFalse(flagArgumentParser.IsPositionalArgumentValue("--flag-argument"));
+            Assert.IsFalse(keywordArgumentParser.IsFlagArgumentValue("--keyword-argument"));
+            Assert.IsFalse(keywordArgumentParser.IsPositionalArgumentValue("--keyword-argument"));
+            Assert.IsTrue(keywordArgumentParser.IsKeywordArgumentValue("--keyword-argument"));
+            Assert.AreEqual(
+                CommandArgumentType.Positional,
+                parser.IdentifyArgumentType("value"));
+            Assert.AreEqual(
+                CommandArgumentType.Flag,
+                flagArgumentParser.IdentifyArgumentType("--flag-argument"));
+            Assert.AreEqual(
+                CommandArgumentType.Keyword,
+                keywordArgumentParser.IdentifyArgumentType("--keyword-argument"));
+        }
+
+        [TestMethod]
+        public void TestDivideArguments()
         {
             // 定義されたコマンドの引数を順番に捜査する
             // 与えられた引数とマッチしたらそれを消費する
@@ -107,12 +137,22 @@ namespace CommandUtilityTest
             // 引数を受け取って自分が処理すべき引数か判定するメソッドをテストする
             // 処理し終わった引数を管理する仕組みをテストする
 
-            /// 引数のパース手順
-            /// １．引数の単位で分割する（SlideZipを使う）
-            ///     値引き数はそのまま
-            ///     フラグの引数はフラグのまま
-            ///     キーワード引数は値とセットで
-            /// ２．
+            CollectionAssert.AreEqual(
+                parser.DivideArguments(new string[] { "value" }),
+                new List<ArgumentValue>() { new PositionalArgumentValue("value") });
+
+            CollectionAssert.AreEqual(
+                flagArgumentParser.DivideArguments(new string[] { "--flag-argument" }),
+                new List<ArgumentValue>() { new FlagArgumentValue("--flag-argument") });
+
+            CollectionAssert.AreEqual(
+                keywordArgumentParser.DivideArguments(new string[] { "--keyword-argument", "value" }),
+                new List<ArgumentValue>() { new KeywordArguentValue("--keyword-argument", "value") });
+
+            AssertUtility.Throws<LackKeywordArgumentValueException>(() =>
+            {
+                keywordArgumentParser.DivideArguments(new string[] { "--keyword-argument" });
+            });
         }
 
         [TestMethod]

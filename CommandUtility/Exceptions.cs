@@ -43,7 +43,6 @@ namespace CommandUtility
         { }
     }
 
-
     [Serializable]
     public class InvalidTypeArgumentException : Exception
     {
@@ -51,6 +50,19 @@ namespace CommandUtility
         public InvalidTypeArgumentException(string message) : base(message) { }
         public InvalidTypeArgumentException(string message, Exception inner) : base(message, inner) { }
         protected InvalidTypeArgumentException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        { }
+    }
+
+
+    [Serializable]
+    public class LackKeywordArgumentValueException : Exception
+    {
+        public LackKeywordArgumentValueException() { }
+        public LackKeywordArgumentValueException(string message) : base(message) { }
+        public LackKeywordArgumentValueException(string message, Exception inner) : base(message, inner) { }
+        protected LackKeywordArgumentValueException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context)
         { }

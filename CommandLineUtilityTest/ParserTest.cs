@@ -49,11 +49,20 @@ namespace CommandUtilityTest
             }
         }
 
+        class TestMixCommand
+        {
+            public static int Main(string stringArgument, int numberArgument, bool flagArgument, string keywordArgument = "defaultValue")
+            {
+                return 0;
+            }
+        }
+
         CommandArgumentsParser parser = new CommandArgumentsParser(typeof(TestCommand));
         CommandArgumentsParser parser2 = new CommandArgumentsParser(typeof(TestCommand2));
         CommandArgumentsParser parser3 = new CommandArgumentsParser(typeof(TestCommand3));
         CommandArgumentsParser flagArgumentParser = new CommandArgumentsParser(typeof(TestOneFlagCommand));
         CommandArgumentsParser keywordArgumentParser = new CommandArgumentsParser(typeof(TestOneKeywordCommand));
+        CommandArgumentsParser mixParser = new CommandArgumentsParser(typeof(TestMixCommand));
 
         [TestMethod]
         public void TestFirstParser()
@@ -129,52 +138,24 @@ namespace CommandUtilityTest
         }
 
         [TestMethod]
-        public void TestDivideArguments()
-        {
-            // 定義されたコマンドの引数を順番に捜査する
-            // 与えられた引数とマッチしたらそれを消費する
-            // デフォルト値を持つものはマッチしない場合にも値が入る
-            // 次の引数も見ながら処理できる仕組みを作る。１つずれたZIPみたいなもの。
-            // 引数を受け取って自分が処理すべき引数か判定するメソッドをテストする
-            // 処理し終わった引数を管理する仕組みをテストする
-
-            CollectionAssert.AreEqual(
-                parser.DivideArguments(new string[] { "value" }),
-                new List<ArgumentValue>() { new PositionalArgumentValue("value") });
-
-            CollectionAssert.AreEqual(
-                flagArgumentParser.DivideArguments(new string[] { "--flag-argument" }),
-                new List<ArgumentValue>() { new FlagArgumentValue("--flag-argument") });
-
-            CollectionAssert.AreEqual(
-                keywordArgumentParser.DivideArguments(new string[] { "--keyword-argument", "value" }),
-                new List<ArgumentValue>() { new KeywordArguentValue("--keyword-argument", "value") });
-
-            AssertUtility.Throws<LackKeywordArgumentValueException>(() =>
-            {
-                keywordArgumentParser.DivideArguments(new string[] { "--keyword-argument" });
-            });
-        }
-
-        [TestMethod]
         public void TestApplyArguments()
         {
             {
                 bool found = false;
                 Assert.IsTrue(
-                    flagArgumentParser.ApplyFlagArgumentValue(new string[] { "--flag-argument" }, (value) => { found = true; }).SequenceEqual(new List<string>()));
+                    flagArgumentParser.ApplyFlagArgumentValue(new string[] { "--flag-argument" }, (arg) => { found = true; }).SequenceEqual(new List<string>()));
                 Assert.IsTrue(found);
             }
 
             {
                 Assert.IsTrue(
-                    flagArgumentParser.ApplyFlagArgumentValue(new string[] { "restArgument" }, (value) => {}).SequenceEqual(new List<string>() { "restArgument" }));
+                    flagArgumentParser.ApplyFlagArgumentValue(new string[] { "restArgument" }, (arg) => {}).SequenceEqual(new List<string>() { "restArgument" }));
             }
 
             {
                 bool found = false;
                 Assert.IsTrue(
-                    keywordArgumentParser.ApplyKeywordArgumentValue(new string[] { "--keyword-argument", "value" }, (name, value) => { found = true; }).Count() == 0);
+                    keywordArgumentParser.ApplyKeywordArgumentValue(new string[] { "--keyword-argument", "value" }, (arg, value) => { found = true; }).Count() == 0);
                 Assert.IsTrue(found);
             }
 
@@ -190,12 +171,74 @@ namespace CommandUtilityTest
             {
                 bool found = false;
                 Assert.IsTrue(
-                    parser.ApplyPositionalArgumentValue(new string[] { "value1", "value2" }, (value) => { found = true; }).SequenceEqual(new string[] { "value2" }));
+                    parser.ApplyPositionalArgumentValue(new string[] { "value1", "value2" }, (arg, value) => { found = true; }).SequenceEqual(new string[] { "value2" }));
                 Assert.IsTrue(found);
             }
 
             Assert.IsTrue(
-                parser3.ApplyPositionalArgumentValue(new string[] { "value" }, (value) => { }).SequenceEqual(new string[] { }));
+                parser3.ApplyPositionalArgumentValue(new string[] { "value" }, (arg, value) => { }).SequenceEqual(new string[] { }));
+        }
+
+        [TestMethod]
+        public void TestMatchArgument()
+        {
+            Assert.AreEqual(keywordArgumentParser.Arguments[0], keywordArgumentParser.MatchKeywordArgument("--keyword-argument"));
+            Assert.AreEqual(null, keywordArgumentParser.MatchKeywordArgument("--undefined-argument"));
+            Assert.AreEqual(flagArgumentParser.Arguments[0], flagArgumentParser.MatchFlagArgument("--flag-argument"));
+            Assert.AreEqual(null, flagArgumentParser.MatchFlagArgument("--undefined-argument"));
+        }
+
+        [TestMethod]
+        public void TestStoreArguments()
+        {
+            {
+                Dictionary<SingleArgumentParser, string> argStore = parser.StoreRawArguments(new string[] { "1" });
+                Assert.AreEqual("1", argStore[parser.Arguments[0]]);
+            }
+            {
+                Dictionary<SingleArgumentParser, string> argStore = parser3.StoreRawArguments(new string[] { "1", "2" });
+                Assert.AreEqual("1", argStore[parser3.Arguments[0]]);
+                Assert.AreEqual("2", argStore[parser3.Arguments[1]]);
+            }
+            {
+                Dictionary<SingleArgumentParser, string> argStore = mixParser.StoreRawArguments(new string[] { "--flag-argument", "--keyword-argument", "keywordValue", "str", "2"});
+                Assert.AreEqual("str", argStore[mixParser.Arguments[0]]);
+                Assert.AreEqual("2", argStore[mixParser.Arguments[1]]);
+                Assert.AreEqual("", argStore[mixParser.Arguments[2]]);
+                Assert.AreEqual("keywordValue", argStore[mixParser.Arguments[3]]);
+            }
+            {
+                Dictionary<SingleArgumentParser, object> argStore = mixParser.StoreParsedArguments(new string[] { "--flag-argument", "--keyword-argument", "keywordValue", "str", "2" });
+                Assert.AreEqual("str", argStore[mixParser.Arguments[0]]);
+                Assert.AreEqual(2, argStore[mixParser.Arguments[1]]);
+                Assert.AreEqual(true, argStore[mixParser.Arguments[2]]);
+                Assert.AreEqual("keywordValue", argStore[mixParser.Arguments[3]]);
+            }
+        }
+
+        [TestMethod]
+        public void TestSequentialArguments()
+        {
+            {
+                List<object> args = mixParser.ParseAsFunctionArguments(new string[] { "--flag-argument", "--keyword-argument", "keywordValue", "str", "2" });
+                Assert.AreEqual("str", args[0]);
+                Assert.AreEqual(2, args[1]);
+                Assert.AreEqual(true, args[2]);
+                Assert.AreEqual("keywordValue", args[3]);
+            }
+            {
+                List<object> args = mixParser.ParseAsFunctionArguments(new string[] {"str", "2" });
+                Assert.AreEqual("str", args[0]);
+                Assert.AreEqual(2, args[1]);
+                Assert.AreEqual(false, args[2]);
+                Assert.AreEqual("defaultValue", args[3]);
+            }
+        }
+
+        [TestMethod]
+        public void TestInvokeCommand()
+        {
+            Assert.Fail();
         }
 
         [TestMethod]

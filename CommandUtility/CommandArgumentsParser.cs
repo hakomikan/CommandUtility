@@ -167,48 +167,17 @@ namespace CommandUtility
             return ret.ToArray();
         }
 
-        public List<ArgumentValue> DivideArguments(string[] v)
-        {
-            var ret = new List<ArgumentValue>() { };
-            var enumerator = v.AsEnumerable().GetEnumerator();
-            while(enumerator.MoveNext())
-            {
-                var current = enumerator.Current;
-                switch (IdentifyArgumentType(current))
-                {
-                    case CommandArgumentType.Positional:
-                        ret.Add(new PositionalArgumentValue(current));
-                        break;
-                    case CommandArgumentType.Keyword:
-                        if(enumerator.MoveNext())
-                        {
-                            ret.Add(new KeywordArguentValue(current, enumerator.Current));
-                        }
-                        else
-                        {
-                            throw new LackKeywordArgumentValueException("lack value after: " + current);
-                        }
-                        break;
-                    case CommandArgumentType.Flag:
-                        ret.Add(new FlagArgumentValue(current));
-                        break;
-                    default:
-                        throw new Exception("unknown arguent type: " + v);
-                }
-            }
-            return ret;
-        }
-
-        public IEnumerable<string> ApplyFlagArgumentValue(IEnumerable<string> arguments, Action<string> action)
+        public IEnumerable<string> ApplyFlagArgumentValue(IEnumerable<string> arguments, Action<SingleArgumentParser> action)
         {
             var enumerator = arguments.GetEnumerator();
             while(enumerator.MoveNext())
             {
                 var current = enumerator.Current;
 
-                if(IsFlagArgumentValue(current))
+                var argumentParser = MatchFlagArgument(current);
+                if(argumentParser != null)
                 {
-                    action(current);
+                    action(argumentParser);
                 }
                 else
                 {
@@ -217,18 +186,19 @@ namespace CommandUtility
             }
         }
 
-        public IEnumerable<string> ApplyKeywordArgumentValue(IEnumerable<string> arguments, Action<string, string> action)
+        public IEnumerable<string> ApplyKeywordArgumentValue(IEnumerable<string> arguments, Action<SingleArgumentParser, string> action)
         {
             var enumerator = arguments.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 var current = enumerator.Current;
 
-                if (IsKeywordArgumentValue(current))
+                var argumentParser = MatchKeywordArgument(current);
+                if (argumentParser != null)
                 {
                     if (enumerator.MoveNext())
                     {
-                        action(current, enumerator.Current);
+                        action(argumentParser, enumerator.Current);
                     }
                     else
                     {
@@ -242,19 +212,76 @@ namespace CommandUtility
             }
         }
 
-        public IEnumerable<string> ApplyPositionalArgumentValue(IEnumerable<string> arguments, Action<string> action)
+        public IEnumerable<string> ApplyPositionalArgumentValue(IEnumerable<string> arguments, Action<SingleArgumentParser, string> action)
         {
             var argumentEnumerator = PositionalArguments.GetEnumerator();
             var valueEnumerator = arguments.GetEnumerator();
             while (argumentEnumerator.MoveNext() && valueEnumerator.MoveNext())
             {
-                action(valueEnumerator.Current);
+                action(argumentEnumerator.Current, valueEnumerator.Current);
             }
 
             while(valueEnumerator.MoveNext())
             {
                 yield return valueEnumerator.Current;
             }
+        }
+
+        public SingleArgumentParser MatchFlagArgument(string v)
+        {
+            foreach (var argument in FlagArguments)
+            {
+                if (argument.ArgumentInfo.GetOptionExpression() == v)
+                {
+                    return argument;
+                }
+            }
+
+            return null;
+        }
+
+        public SingleArgumentParser MatchKeywordArgument(string v)
+        {
+            foreach (var argument in KeywordArguments)
+            {
+                if (argument.ArgumentInfo.GetOptionExpression() == v)
+                {
+                    return argument;
+                }
+            }
+            return null;
+        }
+
+        public Dictionary<SingleArgumentParser, string> StoreRawArguments(string[] v)
+        {
+            var ret = new Dictionary<SingleArgumentParser, string>();
+
+            var restArgs = ApplyKeywordArgumentValue(v, (arg, value) => { ret[arg] = value; });
+            var restArgs2 = ApplyFlagArgumentValue(restArgs, (arg) => { ret[arg] = ""; });
+            var restArgs3 = ApplyPositionalArgumentValue(restArgs2, (arg, value) => { ret[arg] = value; }).ToList();
+
+            if(restArgs3.Count() != 0)
+            {
+                throw new TooManyArgumentException();
+            }
+
+            return ret;
+        }
+
+        public Dictionary<SingleArgumentParser, object> StoreParsedArguments(string[] v)
+        {
+            var ret = new Dictionary<SingleArgumentParser, object>();
+
+            var restArgs = ApplyKeywordArgumentValue(v, (arg, value) => { ret[arg] = arg.Parse(value); });
+            var restArgs2 = ApplyFlagArgumentValue(restArgs, (arg) => { ret[arg] = true; });
+            var restArgs3 = ApplyPositionalArgumentValue(restArgs2, (arg, value) => { ret[arg] = arg.Parse(value); }).ToList();
+
+            if (restArgs3.Count() != 0)
+            {
+                throw new TooManyArgumentException();
+            }
+
+            return ret;
         }
 
         public CommandArgumentType IdentifyArgumentType(string v)
@@ -275,6 +302,26 @@ namespace CommandUtility
             }
 
             throw new NotImplementedException();
+        }
+
+        public List<object> ParseAsFunctionArguments(string[] v)
+        {
+            var storeArgs = StoreParsedArguments(v);
+
+            var ret = new List<object>();
+            foreach (var argumentParser in Arguments)
+            {
+                if(storeArgs.ContainsKey(argumentParser))
+                {
+                    ret.Add(storeArgs[argumentParser]);
+                }
+                else
+                {
+                    ret.Add(argumentParser.GetDefault());
+                }
+            }
+
+            return ret;
         }
 
         public bool IsKeywordArgumentValue(string v)
@@ -346,6 +393,21 @@ namespace CommandUtility
             else
             {
                 throw new Exception(string.Format("Can't parse. type = {0}, value = {1}", ArgumentInfo.ValueType, v));
+            }
+        }
+
+        public object GetDefault()
+        {
+            switch (ArgumentInfo.ArgumentType)
+            {
+                case CommandArgumentType.Positional:
+                    throw new LackPositionalArgumentException("lack argument: " + ArgumentInfo.GetPositionalArgumentExpression());
+                case CommandArgumentType.Keyword:
+                    return ArgumentInfo.GetDefault();
+                case CommandArgumentType.Flag:
+                    return false;
+                default:
+                    throw new Exception("unexpected state");
             }
         }
     }

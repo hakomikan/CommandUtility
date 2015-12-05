@@ -93,5 +93,17 @@ namespace CommandUtility
         {
             return string.Format("<{0}>", Name);
         }
+
+        public object GetDefault()
+        {
+            if(parameter.HasDefaultValue)
+            {
+                return parameter.DefaultValue;
+            }
+            else
+            {
+                throw new LackArgumentException("Lack argument: name = " + Name);
+            }
+        }
     }
 }

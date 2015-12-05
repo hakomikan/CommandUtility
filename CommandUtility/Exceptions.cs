@@ -32,12 +32,37 @@ namespace CommandUtility
 
 
     [Serializable]
+    public class LackArgumentException : Exception
+    {
+        public LackArgumentException() { }
+        public LackArgumentException(string message) : base(message) { }
+        public LackArgumentException(string message, Exception inner) : base(message, inner) { }
+        protected LackArgumentException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        { }
+    }
+
+    [Serializable]
     public class TooManyPositionalArgumentException : Exception
     {
         public TooManyPositionalArgumentException() { }
         public TooManyPositionalArgumentException(string message) : base(message) { }
         public TooManyPositionalArgumentException(string message, Exception inner) : base(message, inner) { }
         protected TooManyPositionalArgumentException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        { }
+    }
+
+
+    [Serializable]
+    public class TooManyArgumentException : Exception
+    {
+        public TooManyArgumentException() { }
+        public TooManyArgumentException(string message) : base(message) { }
+        public TooManyArgumentException(string message, Exception inner) : base(message, inner) { }
+        protected TooManyArgumentException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context)
         { }

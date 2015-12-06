@@ -11,7 +11,7 @@ namespace CommandUtilityTest
     {
         class TestCommand
         {
-            public static int Main(int numberArgument)
+            public int Main(int numberArgument)
             {
                 return 0;
             }
@@ -19,7 +19,7 @@ namespace CommandUtilityTest
 
         class TestCommand2
         {
-            public static int Main(string stringArgument)
+            public int Main(string stringArgument)
             {
                 return 0;
             }
@@ -27,7 +27,7 @@ namespace CommandUtilityTest
 
         class TestCommand3
         {
-            public static int Main(string stringArgument, int numberArgument)
+            public int Main(string stringArgument, int numberArgument)
             {
                 return 0;
             }
@@ -35,7 +35,7 @@ namespace CommandUtilityTest
 
         class TestOneFlagCommand
         {
-            public static int Main(bool flagArgument)
+            public int Main(bool flagArgument)
             {
                 return 0;
             }
@@ -43,7 +43,7 @@ namespace CommandUtilityTest
 
         class TestOneKeywordCommand
         {
-            public static int Main(string keywordArgument = "defaultValue")
+            public int Main(string keywordArgument = "defaultValue")
             {
                 return 0;
             }
@@ -51,7 +51,7 @@ namespace CommandUtilityTest
 
         class TestMixCommand
         {
-            public static int Main(string stringArgument, int numberArgument, bool flagArgument, string keywordArgument = "defaultValue")
+            public int Main(string stringArgument, int numberArgument, bool flagArgument, string keywordArgument = "defaultValue")
             {
                 return 0;
             }

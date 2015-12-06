@@ -98,7 +98,7 @@ namespace CommandUtility
             this.type = type;
             this.Arguments = (
                 from parameter 
-                in type.GetMethod("Main").GetParameters()
+                in type.GetMethod("Main", BindingFlags.Instance | BindingFlags.Public).GetParameters()
                 select new SingleArgumentParser(parameter)).ToList();
         }
 

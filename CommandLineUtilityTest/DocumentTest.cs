@@ -27,10 +27,8 @@ namespace CommandUtilityTest
             }
         }
 
-        private CommandInterface commandInterface = new CommandInterface(typeof(TestCommand));
-        private CommandInterface commandInterface2 = new CommandInterface(typeof(TestCommand2));
-        private CommandDocument document = new CommandInterface(typeof(TestCommand)).GetDocument();
-        private CommandDocument document2 = new CommandInterface(typeof(TestCommand2)).GetDocument();
+        private CommandDocument document = new CommandDocument(typeof(TestCommand));
+        private CommandDocument document2 = new CommandDocument(typeof(TestCommand2));
 
         [TestMethod]
         public void TestGetCommandDocument()
@@ -80,8 +78,8 @@ namespace CommandUtilityTest
         [TestMethod]
         public void TestGetTextDocument()
         {
-            var document = new CommandInterface(typeof(TestCommand)).GetDocument();
-            var document2 = new CommandInterface(typeof(TestCommand2)).GetDocument();
+            var document = new CommandDocument(typeof(TestCommand));
+            var document2 = new CommandDocument(typeof(TestCommand2));
 
             CommandDocumentGenerator generator = new CommandDocumentGenerator(document);
             Assert.AreEqual(@"TestCommand <numberArgument> [--string-argument <value>]", generator.MakeTextDocument());

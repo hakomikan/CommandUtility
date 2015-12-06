@@ -234,18 +234,5 @@ namespace CommandUtilityTest
                 Assert.AreEqual("defaultValue", args[3]);
             }
         }
-
-        [TestMethod]
-        [Ignore]
-        public void TestFlagArgument()
-        {
-            CollectionAssert.AreEqual(
-                new List<object>() { false },
-                flagArgumentParser.ParseV());
-            
-            CollectionAssert.AreEqual(
-                new List<object>() { true },
-                flagArgumentParser.ParseV("--flag-argument"));
-        }
     }
 }

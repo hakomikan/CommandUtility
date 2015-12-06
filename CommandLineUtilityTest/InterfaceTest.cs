@@ -8,7 +8,7 @@ namespace CommandLineUtilityTest
     [TestClass]
     public class InterfaceTest
     {
-        class TestMixCommand
+        class TestMixCommand : CommandBase<TestMixCommand>
         {
             public static string StringArgument { get; set; }
             public static int NumberArgument { get; set; }
@@ -23,11 +23,6 @@ namespace CommandLineUtilityTest
                 KeywordArgument = keywordArgument;
 
                 return 0;
-            }
-
-            public static void Main(string[] args)
-            {
-                new CommandInterface<TestMixCommand>().Run(args.Skip(1).ToArray());
             }
         }
 

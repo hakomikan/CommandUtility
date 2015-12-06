@@ -44,6 +44,7 @@
     <Compile Include="CommandArgumentsParser.cs" />
     <Compile Include="CommandDocument.cs" />
     <Compile Include="CommandInterface.cs" />
+    <Compile Include="CommandInvoker.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

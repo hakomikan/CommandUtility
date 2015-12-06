@@ -236,12 +236,6 @@ namespace CommandUtilityTest
         }
 
         [TestMethod]
-        public void TestInvokeCommand()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod]
         [Ignore]
         public void TestFlagArgument()
         {

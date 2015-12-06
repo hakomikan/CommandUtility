@@ -14,6 +14,12 @@ namespace CommandUtility
         object Convert(string argument);
     }
 
+    public abstract class ICommandArgumentConverterAttribute : Attribute, ICommandArgumentConverter
+    {
+        public abstract Type OutputType { get; }
+        public abstract object Convert(string argument);
+    }
+
     public class CommandArgumentConverter
     {
         public CommandArgumentConverter()
@@ -22,31 +28,37 @@ namespace CommandUtility
             catalog.Catalogs.Add(new AssemblyCatalog(typeof(CommandArgumentConverter).Assembly));
             Container = new CompositionContainer(catalog);
             Container.ComposeParts(this);
+
+            foreach (var converter in ConverterList)
+            {
+                Converters[converter.Value.OutputType] = converter.Value;
+            }
         }
 
         public object Convert(Type type, string argument)
         {
-            foreach (var converter in Converters)
+            if (Converters.ContainsKey(type))
             {
-                if (type == converter.Value.OutputType)
+                try
                 {
-                    try
-                    {
-                        return converter.Value.Convert(argument);
-                    }
-                    catch
-                    {
-                        throw new InvalidTypeArgumentException(string.Format("Can't convert: type={0}, value={1}",type.Name, argument));
-                    }
+                    return Converters[type].Convert(argument);
+                }
+                catch
+                {
+                    throw new InvalidTypeArgumentException(string.Format("Can't convert: type={0}, value={1}", type.Name, argument));
                 }
             }
-
-            throw new InvalidTypeArgumentException(string.Format("unsupported type: type={0}, value={1}", type.Name, argument));
+            else
+            {
+                throw new InvalidTypeArgumentException(string.Format("Unsupported type: type={0}, value={1}", type.Name, argument));
+            }
         }
+
+        private Dictionary<Type, ICommandArgumentConverter> Converters = new Dictionary<Type, ICommandArgumentConverter>();
 
         private CompositionContainer Container;
 
         [ImportMany]
-        private IEnumerable<Lazy<ICommandArgumentConverter>> Converters = null;
+        private IEnumerable<Lazy<ICommandArgumentConverter>> ConverterList = null;
     }
 }

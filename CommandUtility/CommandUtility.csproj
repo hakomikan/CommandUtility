@@ -50,6 +50,8 @@
     <Compile Include="CommandInvoker.cs" />
     <Compile Include="Converters\BasicConverters.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="Expressions\Hex32Attribute.cs" />
+    <Compile Include="Expressions\Hex64Attribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -105,5 +105,15 @@ namespace CommandUtility
                 throw new LackArgumentException("Lack argument: name = " + Name);
             }
         }
+
+        public bool HasConverter()
+        {
+            return parameter.GetCustomAttribute<ICommandArgumentConverterAttribute>(true) != null;
+        }
+
+        public ICommandArgumentConverter GetConverter()
+        {
+            return parameter.GetCustomAttribute<ICommandArgumentConverterAttribute>(true);
+        }
     }
 }

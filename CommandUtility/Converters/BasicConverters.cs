@@ -30,6 +30,50 @@ namespace CommandUtility.Converters
     }
 
     [Export(typeof(ICommandArgumentConverter))]
+    class Int32Converter : ICommandArgumentConverter
+    {
+        public Type OutputType { get { return typeof(Int32); } }
+
+        public object Convert(string argument)
+        {
+            return Int32.Parse(argument);
+        }
+    }
+
+    [Export(typeof(ICommandArgumentConverter))]
+    class Int64Converter : ICommandArgumentConverter
+    {
+        public Type OutputType { get { return typeof(Int64); } }
+
+        public object Convert(string argument)
+        {
+            return Int64.Parse(argument);
+        }
+    }
+
+    [Export(typeof(ICommandArgumentConverter))]
+    class UInt32Converter : ICommandArgumentConverter
+    {
+        public Type OutputType { get { return typeof(UInt32); } }
+
+        public object Convert(string argument)
+        {
+            return UInt32.Parse(argument);
+        }
+    }
+
+    [Export(typeof(ICommandArgumentConverter))]
+    class UInt64Converter : ICommandArgumentConverter
+    {
+        public Type OutputType { get { return typeof(UInt64); } }
+
+        public object Convert(string argument)
+        {
+            return UInt64.Parse(argument);
+        }
+    }
+
+    [Export(typeof(ICommandArgumentConverter))]
     class FloatConverter : ICommandArgumentConverter
     {
         public Type OutputType { get { return typeof(float); } }
@@ -48,27 +92,6 @@ namespace CommandUtility.Converters
         public object Convert(string argument)
         {
             return double.Parse(argument);
-        }
-    }
-
-    [Export(typeof(ICommandArgumentConverter))]
-    class Int32Converter : ICommandArgumentConverter
-    {
-        public Type OutputType { get { return typeof(Int32); } }
-
-        public object Convert(string argument)
-        {
-            return Int32.Parse(argument);
-        }
-    }
-    [Export(typeof(ICommandArgumentConverter))]
-    class Int64Converter : ICommandArgumentConverter
-    {
-        public Type OutputType { get { return typeof(Int64); } }
-
-        public object Convert(string argument)
-        {
-            return Int64.Parse(argument);
         }
     }
 }

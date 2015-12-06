@@ -366,6 +366,8 @@ namespace CommandUtility
 
     public class SingleArgumentParser
     {
+        static CommandArgumentConverter Converter = new CommandArgumentConverter();
+
         public CommandArgumentInfo ArgumentInfo { get; set; }
 
         public SingleArgumentParser(ParameterInfo parameter)
@@ -375,7 +377,14 @@ namespace CommandUtility
 
         public object Parse(string v)
         {
-            return new CommandArgumentConverter().Convert(ArgumentInfo.ValueType, v);
+            if (ArgumentInfo.HasConverter())
+            {
+                return ArgumentInfo.GetConverter().Convert(v);
+            }
+            else
+            {
+                return Converter.Convert(ArgumentInfo.ValueType, v);
+            }
         }
 
         public object GetDefault()

@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CommandUtility;
 
-namespace CommandLineUtilityTest
+namespace CommandUtilityTest
 {
     [TestClass]
     public class InvokerTest

@@ -375,25 +375,7 @@ namespace CommandUtility
 
         public object Parse(string v)
         {
-            if(ArgumentInfo.ValueType == typeof(int))
-            {
-                try
-                {
-                    return int.Parse(v);
-                }
-                catch
-                {
-                    throw new InvalidTypeArgumentException(string.Format("Invalid type argument: expected: integer, actual = {0}", v));
-                }
-            }
-            else if(ArgumentInfo.ValueType == typeof(string))
-            {
-                return v;
-            }
-            else
-            {
-                throw new Exception(string.Format("Can't parse. type = {0}, value = {1}", ArgumentInfo.ValueType, v));
-            }
+            return new CommandArgumentConverter().Convert(ArgumentInfo.ValueType, v);
         }
 
         public object GetDefault()

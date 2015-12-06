@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CommandUtility;
 using System.Linq;
 
-namespace CommandLineUtilityTest
+namespace CommandUtilityTest
 {
     [TestClass]
     public class InterfaceTest
@@ -30,7 +30,6 @@ namespace CommandLineUtilityTest
         public void IntafaceTest()
         {
             var command = new CommandInterface<TestMixCommand>();
-            var instance = command.Invoker.Instance;
 
             Assert.AreEqual(0, command.Run(new string[] { "--flag-argument", "--keyword-argument", "keywordValue", "str", "2" }));
             Assert.AreEqual("str", TestMixCommand.StringArgument);

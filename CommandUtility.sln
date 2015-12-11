@@ -3,14 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9E0F7B6E-E265-41A2-91BD-0CD1A1B5548F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{79E5EA4D-97DE-49F2-A133-72AE9DF562D0}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandUtilityTest", "CommandLineUtilityTest\CommandUtilityTest.csproj", "{0340AEDA-D20A-46F8-A61A-6310DE7C15D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandUtilityTest", "CommandUtilityTest\CommandUtilityTest.csproj", "{0340AEDA-D20A-46F8-A61A-6310DE7C15D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandUtility", "CommandUtility\CommandUtility.csproj", "{B237B86D-784B-4933-833F-0DF7436DAB3A}"
 EndProject

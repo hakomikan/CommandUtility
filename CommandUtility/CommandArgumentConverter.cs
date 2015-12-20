@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.Reflection;
 
 namespace CommandUtility
 {
@@ -22,11 +23,11 @@ namespace CommandUtility
 
     public class CommandArgumentConverter
     {
+        public static AggregateCatalog Catalogs = new AggregateCatalog(new ApplicationCatalog());
+
         public CommandArgumentConverter()
         {
-            var catalog = new AggregateCatalog();
-            catalog.Catalogs.Add(new AssemblyCatalog(typeof(CommandArgumentConverter).Assembly));
-            Container = new CompositionContainer(catalog);
+            Container = new CompositionContainer(Catalogs);
             Container.ComposeParts(this);
 
             foreach (var converter in ConverterList)

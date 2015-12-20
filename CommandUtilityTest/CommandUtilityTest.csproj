@@ -61,6 +61,10 @@
     <Compile Include="InvokerTest.cs" />
     <Compile Include="InterfaceTest.cs" />
     <Compile Include="ConverterTest.cs" />
+    <Compile Include="ParamsTest.cs" />
+    <Compile Include="ArgumentParserTest.cs" />
+    <Compile Include="TestCommands.cs" />
+    <Compile Include="CommandClassInfoTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommandUtility\CommandUtility.csproj">

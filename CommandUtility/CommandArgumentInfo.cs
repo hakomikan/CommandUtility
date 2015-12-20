@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace CommandUtility
 {
@@ -8,7 +9,8 @@ namespace CommandUtility
     {
         Positional,
         Keyword,
-        Flag
+        Flag,
+        Variable
     }
 
     public class CommandArgumentInfo
@@ -27,17 +29,25 @@ namespace CommandUtility
         {
             get
             {
-                if (parameter.ParameterType == typeof(bool))
+                if (IsFlagArgument)
                 {
                     return CommandArgumentType.Flag;
                 }
-                else if (parameter.HasDefaultValue)
+                else if (IsKeywordArgument)
                 {
                     return CommandArgumentType.Keyword;
                 }
-                else
+                else if (IsPositionalArgument)
                 {
                     return CommandArgumentType.Positional;
+                }
+                else if (IsVariableArgument)
+                {
+                    return CommandArgumentType.Variable;
+                }
+                else
+                {
+                    throw new Exception("Unknown Type Argument");
                 }
             }
         }
@@ -62,7 +72,31 @@ namespace CommandUtility
         {
             get
             {
-                return !parameter.HasDefaultValue && parameter.ParameterType != typeof(bool);
+                return !parameter.HasDefaultValue && parameter.ParameterType != typeof(bool) && !IsVariableArgument;
+            }
+        }
+
+        public bool IsVariableArgument
+        {
+            get
+            {
+                return parameter.GetCustomAttributes<ParamArrayAttribute>().Count() > 0;
+            }
+        }
+
+        public bool IsSequentialArgument
+        {
+            get
+            {
+                return IsPositionalArgument || IsVariableArgument;
+            }
+        }
+
+        public bool IsMultiple
+        {
+            get
+            {
+                return IsVariableArgument;
             }
         }
 

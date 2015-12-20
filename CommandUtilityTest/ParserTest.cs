@@ -9,71 +9,12 @@ namespace CommandUtilityTest
     [TestClass]
     public class ParserTest
     {
-        class TestCommand
-        {
-            public int Main(int numberArgument)
-            {
-                return 0;
-            }
-        }
-
-        class TestCommand2
-        {
-            public int Main(string stringArgument)
-            {
-                return 0;
-            }
-        }
-
-        class TestCommand3
-        {
-            public int Main(string stringArgument, int numberArgument)
-            {
-                return 0;
-            }
-        }
-
-        class TestOneFlagCommand
-        {
-            public int Main(bool flagArgument)
-            {
-                return 0;
-            }
-        }
-
-        class TestOneKeywordCommand
-        {
-            public int Main(string keywordArgument = "defaultValue")
-            {
-                return 0;
-            }
-        }
-
-        class TestMixCommand
-        {
-            public int Main(string stringArgument, int numberArgument, bool flagArgument, string keywordArgument = "defaultValue")
-            {
-                return 0;
-            }
-        }
-
         CommandArgumentsParser parser = new CommandArgumentsParser(typeof(TestCommand));
         CommandArgumentsParser parser2 = new CommandArgumentsParser(typeof(TestCommand2));
         CommandArgumentsParser parser3 = new CommandArgumentsParser(typeof(TestCommand3));
         CommandArgumentsParser flagArgumentParser = new CommandArgumentsParser(typeof(TestOneFlagCommand));
         CommandArgumentsParser keywordArgumentParser = new CommandArgumentsParser(typeof(TestOneKeywordCommand));
         CommandArgumentsParser mixParser = new CommandArgumentsParser(typeof(TestMixCommand));
-
-        [TestMethod]
-        public void TestFirstParser()
-        {
-            Assert.AreEqual(1234, (int)parser.ParseV("1234")[0]);
-            Assert.AreEqual(2345, (int)parser.ParseV("2345")[0]);
-            Assert.AreEqual("testString", (string)parser2.ParseV("testString")[0]);
-            CollectionAssert.AreEqual(
-                new List<object>() { "1234", 1234 },
-                parser3.ParseV("1234", "1234"));
-        }
 
         [TestMethod]
         public void TestSinglePositionalArgumentParser()
@@ -94,16 +35,16 @@ namespace CommandUtilityTest
         {
             AssertUtility.Throws<LackPositionalArgumentException>(() =>
             {
-                parser3.ParseV("1234");
+                parser3.ParseAsFunctionArguments(new string[] { "1234" });
             });
         }
 
         [TestMethod]
         public void TestTooManyArgument()
         {
-            AssertUtility.Throws<TooManyPositionalArgumentException>(() =>
+            AssertUtility.Throws<TooManyArgumentException>(() =>
             {
-                parser.ParseV("1234", "1234");
+                parser.ParseAsFunctionArguments(new string[] { "1234", "1234" });
             });
         }
 
@@ -112,7 +53,7 @@ namespace CommandUtilityTest
         {
             AssertUtility.Throws<InvalidTypeArgumentException>(() =>
             {
-                parser.ParseV("aaaa");
+                parser.ParseAsFunctionArguments(new string[] { "aaaa" });
             });
         }
 
@@ -171,12 +112,12 @@ namespace CommandUtilityTest
             {
                 bool found = false;
                 Assert.IsTrue(
-                    parser.ApplyPositionalArgumentValue(new string[] { "value1", "value2" }, (arg, value) => { found = true; }).SequenceEqual(new string[] { "value2" }));
+                    parser.ApplySequentialArgumentValue(new string[] { "value1", "value2" }, (arg, value) => { found = true; }).SequenceEqual(new string[] { "value2" }));
                 Assert.IsTrue(found);
             }
 
             Assert.IsTrue(
-                parser3.ApplyPositionalArgumentValue(new string[] { "value" }, (arg, value) => { }).SequenceEqual(new string[] { }));
+                parser3.ApplySequentialArgumentValue(new string[] { "value" }, (arg, value) => { }).SequenceEqual(new string[] { }));
         }
 
         [TestMethod]

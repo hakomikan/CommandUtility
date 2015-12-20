@@ -13,7 +13,7 @@ namespace CommandUtilityTest
     {
         class TestCommand
         {
-            public static int Main(int numberArgument, string stringArgument, bool flagArgument, int argumentWithDefault = 3)
+            public static int Main(int numberArgument, string stringArgument, bool flagArgument, int argumentWithDefault = 3, params string[] variableArguments)
             {
                 return 0;
             }
@@ -29,6 +29,7 @@ namespace CommandUtilityTest
             Assert.IsFalse(new CommandArgumentInfo(parameters[2]).IsPositionalArgument);
             Assert.IsTrue(new CommandArgumentInfo(parameters[2]).IsFlagArgument);
             Assert.IsTrue(new CommandArgumentInfo(parameters[3]).IsKeywordArgument);
+            Assert.IsTrue(new CommandArgumentInfo(parameters[4]).IsVariableArgument);
         }
     }
 }

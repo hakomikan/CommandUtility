@@ -44,19 +44,6 @@ namespace CommandUtility
     }
 
     [Serializable]
-    public class TooManyPositionalArgumentException : Exception
-    {
-        public TooManyPositionalArgumentException() { }
-        public TooManyPositionalArgumentException(string message) : base(message) { }
-        public TooManyPositionalArgumentException(string message, Exception inner) : base(message, inner) { }
-        protected TooManyPositionalArgumentException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context) : base(info, context)
-        { }
-    }
-
-
-    [Serializable]
     public class TooManyArgumentException : Exception
     {
         public TooManyArgumentException() { }
@@ -88,6 +75,19 @@ namespace CommandUtility
         public LackKeywordArgumentValueException(string message) : base(message) { }
         public LackKeywordArgumentValueException(string message, Exception inner) : base(message, inner) { }
         protected LackKeywordArgumentValueException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        { }
+    }
+
+
+    [Serializable]
+    public class HasNoMainCommandException : Exception
+    {
+        public HasNoMainCommandException() { }
+        public HasNoMainCommandException(string message) : base(message) { }
+        public HasNoMainCommandException(string message, Exception inner) : base(message, inner) { }
+        protected HasNoMainCommandException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context)
         { }

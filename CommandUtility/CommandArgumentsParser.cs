@@ -104,11 +104,11 @@ namespace CommandUtility
 
         public List<SingleArgumentParser> Arguments { get; set; }
 
-        public List<SingleArgumentParser> PositionalArguments
+        public List<SingleArgumentParser> SequentialArguments
         {
             get
             {
-                return (from argument in Arguments where argument.ArgumentInfo.IsPositionalArgument select argument).ToList();
+                return (from argument in Arguments where argument.ArgumentInfo.IsSequentialArgument select argument).ToList();
             }
         }
 
@@ -128,28 +128,12 @@ namespace CommandUtility
             }
         }
 
-        public List<object> ParseV(params string[] arguments)
+        public List<SingleArgumentParser> VariableArguments
         {
-            return Parse(arguments);
-        }
-
-        public List<object> Parse(string[] arguments)
-        {
-            string[] restArguments = ParseOptionArgument(arguments);
-
-            if (restArguments.Count() < PositionalArguments.Count())
+            get
             {
-                throw new LackPositionalArgumentException(string.Format("Too few arguments. expected = {0}, actual = {1}", Arguments.Count(), arguments.Count()));
+                return (from argument in Arguments where argument.ArgumentInfo.IsVariableArgument select argument).ToList();
             }
-            else if (restArguments.Count() > PositionalArguments.Count())
-            {
-                throw new TooManyPositionalArgumentException(string.Format("Too many arguments. expected = {0}, actual = {1}", Arguments.Count(), arguments.Count()));
-            }
-
-            return (
-                from parsed 
-                in restArguments.Zip(Arguments, (value, definedAgument) => definedAgument.Parse(value))
-                select parsed).ToList();
         }
 
         private string[] ParseOptionArgument(string[] arguments)
@@ -212,13 +196,21 @@ namespace CommandUtility
             }
         }
 
-        public IEnumerable<string> ApplyPositionalArgumentValue(IEnumerable<string> arguments, Action<SingleArgumentParser, string> action)
+        public IEnumerable<string> ApplySequentialArgumentValue(IEnumerable<string> arguments, Action<SingleArgumentParser, string> action)
         {
-            var argumentEnumerator = PositionalArguments.GetEnumerator();
+            var argumentEnumerator = SequentialArguments.GetEnumerator();
             var valueEnumerator = arguments.GetEnumerator();
             while (argumentEnumerator.MoveNext() && valueEnumerator.MoveNext())
             {
                 action(argumentEnumerator.Current, valueEnumerator.Current);
+
+                if (argumentEnumerator.Current.ArgumentInfo.IsMultiple)
+                {
+                    while (valueEnumerator.MoveNext())
+                    {
+                        action(argumentEnumerator.Current, valueEnumerator.Current);
+                    }
+                }
             }
 
             while(valueEnumerator.MoveNext())
@@ -258,7 +250,7 @@ namespace CommandUtility
 
             var restArgs = ApplyKeywordArgumentValue(v, (arg, value) => { ret[arg] = value; });
             var restArgs2 = ApplyFlagArgumentValue(restArgs, (arg) => { ret[arg] = ""; });
-            var restArgs3 = ApplyPositionalArgumentValue(restArgs2, (arg, value) => { ret[arg] = value; }).ToList();
+            var restArgs3 = ApplySequentialArgumentValue(restArgs2, (arg, value) => { ret[arg] = value; }).ToList();
 
             if(restArgs3.Count() != 0)
             {
@@ -270,11 +262,28 @@ namespace CommandUtility
 
         public Dictionary<SingleArgumentParser, object> StoreParsedArguments(string[] v)
         {
-            var ret = new Dictionary<SingleArgumentParser, object>();
+            var ret = new Dictionary<SingleArgumentParser, dynamic>();
 
             var restArgs = ApplyKeywordArgumentValue(v, (arg, value) => { ret[arg] = arg.Parse(value); });
             var restArgs2 = ApplyFlagArgumentValue(restArgs, (arg) => { ret[arg] = true; });
-            var restArgs3 = ApplyPositionalArgumentValue(restArgs2, (arg, value) => { ret[arg] = arg.Parse(value); }).ToList();
+            var restArgs3 = ApplySequentialArgumentValue(restArgs2, (arg, value) => {
+                if(arg.ArgumentInfo.IsMultiple)
+                {
+                    if (ret.ContainsKey(arg))
+                    {
+                        ret[arg].Add(value);
+                    }
+                    else
+                    {
+                        // ここは AnyType[] を適切にリストにしないといけない
+                        ret[arg] = new List<object>() { arg.Parse(value) };
+                    }
+                }
+                else
+                {
+                    ret[arg] = arg.Parse(value);
+                }
+            }).ToList();
 
             if (restArgs3.Count() != 0)
             {
@@ -397,6 +406,8 @@ namespace CommandUtility
                     return ArgumentInfo.GetDefault();
                 case CommandArgumentType.Flag:
                     return false;
+                case CommandArgumentType.Variable:
+                    return ArgumentInfo.ValueType.GetConstructor(new Type[] { typeof(Int32) }).Invoke(new object[] { 0 });
                 default:
                     throw new Exception("unexpected state");
             }

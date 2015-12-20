@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CommandUtility.CommandArgumentsParser">
+    <Position X="0.75" Y="9" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAEAAAAQAABkAEABAAAIgABAQQAIBCAACAAEAA=</HashCode>
+      <FileName>CommandArgumentsParser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Arguments" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="CommandUtility.ArgumentValue" Collapsed="true">
+    <Position X="12.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommandArgumentsParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandUtility.PositionalArgumentValue" Collapsed="true">
+    <Position X="10.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAABAAAAAAAAA=</HashCode>
+      <FileName>CommandArgumentsParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandUtility.FlagArgumentValue" Collapsed="true">
+    <Position X="12.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAEAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommandArgumentsParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandUtility.KeywordArguentValue" Collapsed="true">
+    <Position X="14.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAEAKAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommandArgumentsParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandUtility.SingleArgumentParser">
+    <Position X="4.25" Y="11.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAQACAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>CommandArgumentsParser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Converter" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CommandUtility.Converters.StringConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\BasicConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CommandUtility.Converters.IntConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\BasicConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CommandUtility.Converters.Int32Converter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\BasicConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CommandUtility.Converters.Int64Converter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\BasicConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CommandUtility.Converters.UInt32Converter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\BasicConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CommandUtility.Converters.UInt64Converter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\BasicConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CommandUtility.Converters.FloatConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\BasicConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CommandUtility.Converters.DoubleConverter" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\BasicConverters.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="CommandUtility.Expressions.Hex32Attribute" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Hex32Attribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandUtility.Expressions.Hex64Attribute" Collapsed="true">
+    <Position X="15.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Expressions\Hex64Attribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandUtility.ICommandArgumentConverterAttribute" Collapsed="true">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommandArgumentConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CommandUtility.CommandInvoker&lt;T&gt;">
+    <Position X="5.5" Y="9" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>CommandInvoker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandUtility.CommandInterface&lt;T&gt;">
+    <Position X="2.75" Y="6" Width="2.75" />
+    <AssociationLine Name="Invoker" Type="CommandUtility.CommandInvoker&lt;T&gt;" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.25" Y="7.94" />
+        <Point X="4.25" Y="8.625" />
+        <Point X="5.969" Y="8.625" />
+        <Point X="5.969" Y="9" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Parser" Type="CommandUtility.CommandArgumentsParser" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.25" Y="7.94" />
+        <Point X="4.25" Y="8.625" />
+        <Point X="2" Y="8.625" />
+        <Point X="2" Y="9" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAIAAAAAAAAAAAABAAAAAAgAAAAAAAI=</HashCode>
+      <FileName>CommandInterface.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Invoker" />
+      <Property Name="Parser" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CommandUtility.CommandDocumentGenerator">
+    <Position X="1.5" Y="2.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommandDocument.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="document" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CommandUtility.CommandDocument">
+    <Position X="5" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAABAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>CommandDocument.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Arguments" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="CommandUtility.CommandBase&lt;T&gt;">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>CommandBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandUtility.CommandArgumentInfo">
+    <Position X="11.75" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAgAAAQAAAgAQAAAYgAAAYAAAsMEAAAAAAEAA=</HashCode>
+      <FileName>CommandArgumentInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandUtility.CommandArgumentDocument">
+    <Position X="8" Y="3.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAADAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommandDocument.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ArgumentInfo" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CommandUtility.CommandArgumentConverter">
+    <Position X="8.25" Y="12.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AACAAAQAAAAACAACAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommandArgumentConverter.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="Converters" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Interface Name="CommandUtility.ICommandArgumentConverter">
+    <Position X="12.25" Y="12.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommandArgumentConverter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Yu Gothic UI" Size="9" />
+</ClassDiagram>

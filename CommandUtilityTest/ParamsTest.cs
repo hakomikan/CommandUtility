@@ -10,22 +10,6 @@ namespace CommandUtilityTest
     [TestClass]
     public class ParamsTest
     {
-        class IntegerParamsCommand
-        {
-            public int Main(params int[] arguments)
-            {
-                return 0;
-            }
-        }
-
-        class StringParamsCommand
-        {
-            public int Main(params string[] arguments)
-            {
-                return 0;
-            }
-        }
-
         [Export(typeof(ICommandArgumentConverter))]
         class StringArrayConverter : ICommandArgumentConverter
         {

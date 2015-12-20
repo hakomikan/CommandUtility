@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommandUtility;
+using System.Reflection;
 
 namespace CommandUtilityTest
 {
@@ -56,5 +58,32 @@ namespace CommandUtilityTest
         {
             return 0;
         }
+    }
+
+    class IntegerParamsCommand
+    {
+        public int Main(params int[] arguments)
+        {
+            return 0;
+        }
+    }
+
+    class StringParamsCommand
+    {
+        public int Main(params string[] arguments)
+        {
+            return 0;
+        }
+    }
+
+    class TestParameters
+    {
+        public static ParameterInfo[] Parameters = new CommandClassInfo(typeof(TestMixCommand)).MainCommand.GetParameters();
+        public static ParameterInfo[] Parameters2 = new CommandClassInfo(typeof(IntegerParamsCommand)).MainCommand.GetParameters();
+        public static ParameterInfo StringPositionalArgument = Parameters[0];
+        public static ParameterInfo NumberPositionalArgument = Parameters[1];
+        public static ParameterInfo FlagArgument = Parameters[2];
+        public static ParameterInfo KeywordArgument = Parameters[3];
+        public static ParameterInfo IntegerParamsArgument = Parameters2[0];
     }
 }

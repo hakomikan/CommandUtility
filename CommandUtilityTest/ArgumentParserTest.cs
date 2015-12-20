@@ -7,11 +7,36 @@ namespace CommandUtilityTest
     [TestClass]
     public class ArgumentParserTest
     {
-        ParameterInfo[] methods = new CommandClassInfo(typeof(TestMixCommand)).MainCommand.GetParameters();
-
         [TestMethod]
         public void TestMethod1()
         {
+            //var argumentParser = new ArgumentParser(TestParameters.NumberPositionalArgument);
+            //var valueStore = argumentParser.CreateStore();
+
+            var valueStore = new ArgumentValueStore<int>();
+            valueStore.Store(1);
+        }
+    }
+
+    public class ArgumentValueStore<T>
+    {
+        public ArgumentValueStore()
+        {
+        }
+
+        public void Store(int v)
+        {
+            
+        }
+    }
+
+    public class ArgumentParser
+    {
+        private ParameterInfo ParameterInfo;
+
+        public ArgumentParser(ParameterInfo parameterInfo)
+        {
+            this.ParameterInfo = parameterInfo;
         }
     }
 }

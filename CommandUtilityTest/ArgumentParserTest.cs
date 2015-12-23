@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using CommandUtility;
+using System.Collections;
 
 namespace CommandUtilityTest
 {
@@ -8,35 +11,53 @@ namespace CommandUtilityTest
     public class ArgumentParserTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestArrayArgumentParser()
         {
-            //var argumentParser = new ArgumentParser(TestParameters.NumberPositionalArgument);
-            //var valueStore = argumentParser.CreateStore();
+            var argumentParser = new ArgumentParser_(TestParameters.IntegerParamsArgument);
+            var argumentStore = argumentParser.CreateArgumentStore();
 
-            var valueStore = new ArgumentValueStore<int>();
-            valueStore.Store(1);
+            Assert.AreEqual(typeof(int[]), argumentStore.Get().GetType());
+
+            Assert.IsFalse(argumentStore.HasValue);
+            argumentStore.Store(1);
+            Assert.IsTrue(argumentStore.HasValue);
+            argumentStore.Store(2);
+            CollectionAssert.AreEqual(new int[] { 1, 2 }, (int[])argumentStore.Get());
+            argumentStore.Store(3);
+            CollectionAssert.AreEqual(new int[] { 1, 2, 3 }, (int[])argumentStore.Get());
         }
-    }
 
-    public class ArgumentValueStore<T>
-    {
-        public ArgumentValueStore()
+        [TestMethod]
+        public void TestListArgumentParser()
         {
+            var argumentParser = new ArgumentParser_(TestParameters.IntegerListArgument);
+            var argumentStore = argumentParser.CreateArgumentStore();
+
+            Assert.AreEqual(typeof(List<int>), argumentStore.Get().GetType());
+
+            Assert.IsFalse(argumentStore.HasValue);
+            argumentStore.Store(1);
+            Assert.IsTrue(argumentStore.HasValue);
+            argumentStore.Store(2);
+            CollectionAssert.AreEqual(new int[] { 1, 2 }, (List<int>)argumentStore.Get());
+            argumentStore.Store(3);
+            CollectionAssert.AreEqual(new int[] { 1, 2, 3 }, (List<int>)argumentStore.Get());
         }
 
-        public void Store(int v)
+        [TestMethod]
+        public void TestSingleArgumentParser()
         {
-            
-        }
-    }
+            var argumentParser = new ArgumentParser_(TestParameters.NumberPositionalArgument);
+            var argumentStore = argumentParser.CreateArgumentStore();
 
-    public class ArgumentParser
-    {
-        private ParameterInfo ParameterInfo;
+            Assert.IsFalse(argumentStore.HasValue);
+            argumentStore.Store(1);
+            Assert.IsTrue(argumentStore.HasValue);
 
-        public ArgumentParser(ParameterInfo parameterInfo)
-        {
-            this.ParameterInfo = parameterInfo;
+            AssertUtility.Throws<TooManyArgumentException>(() =>
+            {
+                argumentStore.Store(2);
+            });
         }
     }
 }

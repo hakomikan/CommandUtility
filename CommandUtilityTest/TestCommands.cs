@@ -76,14 +76,24 @@ namespace CommandUtilityTest
         }
     }
 
+    class IntegerListCommand
+    {
+        public int Main(List<int> keywordValue)
+        {
+            return 0;
+        }
+    }
+
     class TestParameters
     {
-        public static ParameterInfo[] Parameters = new CommandClassInfo(typeof(TestMixCommand)).MainCommand.GetParameters();
-        public static ParameterInfo[] Parameters2 = new CommandClassInfo(typeof(IntegerParamsCommand)).MainCommand.GetParameters();
-        public static ParameterInfo StringPositionalArgument = Parameters[0];
-        public static ParameterInfo NumberPositionalArgument = Parameters[1];
-        public static ParameterInfo FlagArgument = Parameters[2];
-        public static ParameterInfo KeywordArgument = Parameters[3];
-        public static ParameterInfo IntegerParamsArgument = Parameters2[0];
+        public static CommandParameterInfo[] Parameters = new CommandClassInfo(typeof(TestMixCommand)).MainCommand.Parameters.ToArray();
+        public static CommandParameterInfo[] Parameters2 = new CommandClassInfo(typeof(IntegerParamsCommand)).MainCommand.Parameters.ToArray();
+        public static CommandParameterInfo[] Parameters3 = new CommandClassInfo(typeof(IntegerListCommand)).MainCommand.Parameters.ToArray();
+        public static CommandParameterInfo StringPositionalArgument = Parameters[0];
+        public static CommandParameterInfo NumberPositionalArgument = Parameters[1];
+        public static CommandParameterInfo FlagArgument = Parameters[2];
+        public static CommandParameterInfo KeywordArgument = Parameters[3];
+        public static CommandParameterInfo IntegerParamsArgument = Parameters2[0];
+        public static CommandParameterInfo IntegerListArgument = Parameters3[0];
     }
 }

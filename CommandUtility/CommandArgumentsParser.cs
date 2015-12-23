@@ -377,11 +377,13 @@ namespace CommandUtility
     {
         static CommandArgumentConverter Converter = new CommandArgumentConverter();
 
-        public CommandArgumentInfo ArgumentInfo { get; set; }
+        public CommandParameterInfo ParameterInfo { get; private set; }
+        public CommandArgumentInfo ArgumentInfo { get; private set; }
 
         public SingleArgumentParser(ParameterInfo parameter)
         {
             this.ArgumentInfo = new CommandArgumentInfo(parameter);
+            this.ParameterInfo = new CommandParameterInfo(parameter);
         }
 
         public object Parse(string v)
@@ -412,5 +414,58 @@ namespace CommandUtility
                     throw new Exception("unexpected state");
             }
         }
+
+        public ICommandArgumentConverter GetConverter()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IArgumentStore CreateArgumentStore()
+        {
+            if (ParameterInfo.IsArrayParameter)
+            {
+                return (IArgumentStore)(typeof(ArrayArgumentStore<>).MakeGenericType(ParameterInfo.ParameterType).GetConstructor(new Type[] { }).Invoke(new object[] { }));
+            }
+            else if (ParameterInfo.IsListParameter)
+            {
+                return (IArgumentStore)(typeof(ListArgumentStore<>).MakeGenericType(ParameterInfo.ParameterType).GetConstructor(new Type[] { }).Invoke(new object[] { }));
+            }
+            else
+            {
+                return new SingleArgumentStore();
+            }
+        }
     }
+
+    public class ArgumentParser_
+    {
+        public CommandParameterInfo ParameterInfo { get; private set; }
+
+        public ArgumentParser_(CommandParameterInfo paramterInfo)
+        {
+            this.ParameterInfo = paramterInfo;
+        }
+
+        public ICommandArgumentConverter GetConverter()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IArgumentStore CreateArgumentStore()
+        {
+            if (ParameterInfo.IsArrayParameter)
+            {
+                return (IArgumentStore)(typeof(ArrayArgumentStore<>).MakeGenericType(ParameterInfo.ParameterType).GetConstructor(new Type[] { }).Invoke(new object[] { }));
+            }
+            else if (ParameterInfo.IsListParameter)
+            {
+                return (IArgumentStore)(typeof(ListArgumentStore<>).MakeGenericType(ParameterInfo.ParameterType).GetConstructor(new Type[] { }).Invoke(new object[] { }));
+            }
+            else
+            {
+                return new SingleArgumentStore();
+            }
+        }
+    }
+
 }

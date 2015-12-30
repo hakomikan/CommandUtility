@@ -65,6 +65,7 @@
     <Compile Include="ArgumentParserTest.cs" />
     <Compile Include="TestCommands.cs" />
     <Compile Include="CommandClassInfoTest.cs" />
+    <Compile Include="CommandLineParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommandUtility\CommandUtility.csproj">

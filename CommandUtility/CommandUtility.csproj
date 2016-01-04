@@ -48,13 +48,16 @@
     <Compile Include="CommandBase.cs" />
     <Compile Include="CommandClassInfo.cs" />
     <Compile Include="CommandDocument.cs" />
+    <Compile Include="CommandExpressionUtility.cs" />
     <Compile Include="CommandInterface.cs" />
     <Compile Include="CommandInvoker.cs" />
+    <Compile Include="CommandLineParser.cs" />
     <Compile Include="Converters\BasicConverters.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Expressions\Hex32Attribute.cs" />
     <Compile Include="Expressions\Hex64Attribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WholeArgumentStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

@@ -437,11 +437,11 @@ namespace CommandUtility
         }
     }
 
-    public class ArgumentParser_
+    public class ArgumentParser
     {
         public CommandParameterInfo ParameterInfo { get; private set; }
 
-        public ArgumentParser_(CommandParameterInfo paramterInfo)
+        public ArgumentParser(CommandParameterInfo paramterInfo)
         {
             this.ParameterInfo = paramterInfo;
         }

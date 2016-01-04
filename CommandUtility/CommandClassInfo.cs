@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace CommandUtility
 {
-    public class CommandParameterInfo
+    public class CommandParameterInfo : IEqualityComparer<CommandParameterInfo>
     {
+        public static CommandArgumentConverter Converter = new CommandArgumentConverter();
         public ParameterInfo ParameterInfo { get; private set; }
 
         public bool IsListParameter
@@ -54,27 +56,86 @@ namespace CommandUtility
             }
         }
 
+        public bool IsFlagArgument
+        {
+            get
+            {
+                return ParameterInfo.ParameterType == typeof(bool);
+            }
+        }
+
+        public bool IsKeywordArgument
+        {
+            get
+            {
+                return ParameterInfo.HasDefaultValue && ParameterInfo.ParameterType != typeof(bool);
+            }
+        }
+
         public CommandParameterInfo(ParameterInfo parameterInfo)
         {
             ParameterInfo = parameterInfo;
+        }
+
+        public string GetOptionExpression()
+        {
+            return "--" + Regex.Replace(ParameterInfo.Name, "[A-Z]", match => "-" + match.Captures[0].Value.ToLower());
+        }
+
+        public bool HasConverter()
+        {
+            return ParameterInfo.GetCustomAttribute<ICommandArgumentConverterAttribute>(true) != null;
+        }
+
+        public ICommandArgumentConverter GetConverter()
+        {
+            return ParameterInfo.GetCustomAttribute<ICommandArgumentConverterAttribute>(true);
+        }
+
+        public object Convert(string v)
+        {
+            if (HasConverter())
+            {
+                return GetConverter().Convert(v);
+            }
+            else
+            {
+                return Converter.Convert(ParameterType, v);
+            }
+        }
+
+        public object GetDefault()
+        {
+            if (ParameterInfo.HasDefaultValue)
+            {
+                return ParameterInfo.DefaultValue;
+            }
+            else
+            {
+                throw new LackArgumentException("Lack argument: name = " + ParameterInfo.Name);
+            }
+        }
+
+        public bool Equals(CommandParameterInfo x, CommandParameterInfo y)
+        {
+            return x.ParameterInfo == y.ParameterInfo;
+        }
+
+        public int GetHashCode(CommandParameterInfo obj)
+        {
+            return ParameterInfo.GetHashCode();
         }
     }
 
     public class CommandMethodInfo
     {
         public MethodInfo MethodInfo { get; private set; }
+        public IEnumerable<CommandParameterInfo> Parameters { get; private set; }
 
         public CommandMethodInfo(MethodInfo methodInfo)
         {
             MethodInfo = methodInfo;
-        }
-
-        public IEnumerable<CommandParameterInfo> Parameters
-        {
-            get
-            {
-                return from parameter in MethodInfo.GetParameters() select new CommandParameterInfo(parameter);
-            }
+            Parameters = (from parameter in MethodInfo.GetParameters() select new CommandParameterInfo(parameter)).ToList();
         }
     }
 
@@ -85,6 +146,10 @@ namespace CommandUtility
         public CommandClassInfo(Type type)
         {
             this.type = type;
+            MainCommands = (from method
+                           in type.GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                           where method.Name == "Main"
+                           select new CommandMethodInfo(method)).ToList();
         }
 
         public bool HasMainCommand
@@ -95,16 +160,7 @@ namespace CommandUtility
             }
         }
 
-        public IEnumerable<CommandMethodInfo> MainCommands
-        {
-            get
-            {
-                return from method
-                       in type.GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                       where method.Name == "Main"
-                       select new CommandMethodInfo(method);
-            }
-        }
+        public IEnumerable<CommandMethodInfo> MainCommands { get; private set; }
 
         public CommandMethodInfo MainCommand
         {

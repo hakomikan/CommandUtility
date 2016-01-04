@@ -80,7 +80,6 @@ namespace CommandUtility
         { }
     }
 
-
     [Serializable]
     public class HasNoMainCommandException : Exception
     {
@@ -88,6 +87,19 @@ namespace CommandUtility
         public HasNoMainCommandException(string message) : base(message) { }
         public HasNoMainCommandException(string message, Exception inner) : base(message, inner) { }
         protected HasNoMainCommandException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context)
+        { }
+    }
+
+
+    [Serializable]
+    public class UnknownOptionException : Exception
+    {
+        public UnknownOptionException() { }
+        public UnknownOptionException(string message) : base(message) { }
+        public UnknownOptionException(string message, Exception inner) : base(message, inner) { }
+        protected UnknownOptionException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context)
         { }

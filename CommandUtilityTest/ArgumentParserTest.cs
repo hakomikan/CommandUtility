@@ -13,7 +13,7 @@ namespace CommandUtilityTest
         [TestMethod]
         public void TestArrayArgumentParser()
         {
-            var argumentParser = new ArgumentParser_(TestParameters.IntegerParamsArgument);
+            var argumentParser = new ArgumentParser(TestParameters.IntegerParamsArgument);
             var argumentStore = argumentParser.CreateArgumentStore();
 
             Assert.AreEqual(typeof(int[]), argumentStore.Get().GetType());
@@ -30,7 +30,7 @@ namespace CommandUtilityTest
         [TestMethod]
         public void TestListArgumentParser()
         {
-            var argumentParser = new ArgumentParser_(TestParameters.IntegerListArgument);
+            var argumentParser = new ArgumentParser(TestParameters.IntegerListArgument);
             var argumentStore = argumentParser.CreateArgumentStore();
 
             Assert.AreEqual(typeof(List<int>), argumentStore.Get().GetType());
@@ -47,7 +47,7 @@ namespace CommandUtilityTest
         [TestMethod]
         public void TestSingleArgumentParser()
         {
-            var argumentParser = new ArgumentParser_(TestParameters.NumberPositionalArgument);
+            var argumentParser = new ArgumentParser(TestParameters.NumberPositionalArgument);
             var argumentStore = argumentParser.CreateArgumentStore();
 
             Assert.IsFalse(argumentStore.HasValue);

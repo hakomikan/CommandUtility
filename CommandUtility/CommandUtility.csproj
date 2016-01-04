@@ -43,8 +43,6 @@
   <ItemGroup>
     <Compile Include="ArgumentStore.cs" />
     <Compile Include="CommandArgumentConverter.cs" />
-    <Compile Include="CommandArgumentInfo.cs" />
-    <Compile Include="CommandArgumentsParser.cs" />
     <Compile Include="CommandBase.cs" />
     <Compile Include="CommandClassInfo.cs" />
     <Compile Include="CommandDocument.cs" />

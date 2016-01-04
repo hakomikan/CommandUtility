@@ -37,24 +37,24 @@ namespace CommandUtilityTest
             Assert.AreEqual("TestCommand2", document2.Name);
 
             CollectionAssert.AreEqual(new string[] { "numberArgument", "stringArgument" },
-                (from argument in document.Arguments select argument.ArgumentInfo.Name).ToArray());
+                (from argument in document.Arguments select argument.ParameterInfo.Name).ToArray());
             CollectionAssert.AreEqual(new string[] { "numberArgument", "stringArgument", "flagArgument"},
-                (from argument in document2.Arguments select argument.ArgumentInfo.Name).ToArray());
+                (from argument in document2.Arguments select argument.ParameterInfo.Name).ToArray());
         }
 
         [TestMethod]
         public void TestGetArgumentType()
         {
-            Assert.IsFalse(document.Arguments[0].ArgumentInfo.IsFlagArgument);
-            Assert.IsFalse(document.Arguments[0].ArgumentInfo.IsKeywordArgument);
-            Assert.IsTrue(document.Arguments[0].ArgumentInfo.IsPositionalArgument);
-            Assert.IsFalse(document.Arguments[1].ArgumentInfo.IsFlagArgument);
-            Assert.IsTrue(document.Arguments[1].ArgumentInfo.IsKeywordArgument);
-            Assert.IsTrue(document2.Arguments[2].ArgumentInfo.IsFlagArgument);
-            Assert.AreEqual(CommandArgumentType.Positional, document.Arguments[0].ArgumentInfo.ArgumentType);
-            Assert.AreEqual(CommandArgumentType.Keyword, document.Arguments[1].ArgumentInfo.ArgumentType);
-            Assert.AreEqual(CommandArgumentType.Positional, document2.Arguments[1].ArgumentInfo.ArgumentType);
-            Assert.AreEqual(CommandArgumentType.Flag, document2.Arguments[2].ArgumentInfo.ArgumentType);
+            Assert.IsFalse(document.Arguments[0].ParameterInfo.IsFlagArgument);
+            Assert.IsFalse(document.Arguments[0].ParameterInfo.IsKeywordArgument);
+            Assert.IsTrue(document.Arguments[0].ParameterInfo.IsPositionalArgument);
+            Assert.IsFalse(document.Arguments[1].ParameterInfo.IsFlagArgument);
+            Assert.IsTrue(document.Arguments[1].ParameterInfo.IsKeywordArgument);
+            Assert.IsTrue(document2.Arguments[2].ParameterInfo.IsFlagArgument);
+            Assert.AreEqual(CommandArgumentType.Positional, document.Arguments[0].ParameterInfo.ArgumentType);
+            Assert.AreEqual(CommandArgumentType.Keyword, document.Arguments[1].ParameterInfo.ArgumentType);
+            Assert.AreEqual(CommandArgumentType.Positional, document2.Arguments[1].ParameterInfo.ArgumentType);
+            Assert.AreEqual(CommandArgumentType.Flag, document2.Arguments[2].ParameterInfo.ArgumentType);
         }
 
         [TestMethod]
@@ -69,10 +69,10 @@ namespace CommandUtilityTest
         [TestMethod]
         public void TestIsRequired()
         {
-            Assert.IsTrue(document.Arguments[0].ArgumentInfo.IsRequired);
-            Assert.IsFalse(document.Arguments[1].ArgumentInfo.IsRequired);
-            Assert.IsTrue(document2.Arguments[1].ArgumentInfo.IsRequired);
-            Assert.IsFalse(document2.Arguments[2].ArgumentInfo.IsRequired);
+            Assert.IsTrue(document.Arguments[0].ParameterInfo.IsRequired);
+            Assert.IsFalse(document.Arguments[1].ParameterInfo.IsRequired);
+            Assert.IsTrue(document2.Arguments[1].ParameterInfo.IsRequired);
+            Assert.IsFalse(document2.Arguments[2].ParameterInfo.IsRequired);
         }
 
         [TestMethod]

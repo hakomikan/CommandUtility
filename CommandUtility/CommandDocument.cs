@@ -23,37 +23,37 @@ namespace CommandUtility
 
     public class CommandArgumentDocument
     {
-        public CommandArgumentInfo ArgumentInfo { get; set; }
+        public CommandParameterInfo ParameterInfo { get; set; }
 
         public CommandArgumentDocument(ParameterInfo parameter)
         {
-            this.ArgumentInfo = new CommandArgumentInfo(parameter);
+            this.ParameterInfo = new CommandParameterInfo(parameter);
         }
 
         public string DocumentExpression
         {
             get
             {
-                switch (ArgumentInfo.ArgumentType)
+                switch (ParameterInfo.ArgumentType)
                 {
                     case CommandArgumentType.Positional:
                         return WrapOptionalExpression(
-                            string.Format("<{0}>", ArgumentInfo.Name));
+                            string.Format("<{0}>", ParameterInfo.Name));
                     case CommandArgumentType.Keyword:
                         return WrapOptionalExpression(
-                            string.Format("{0} <value>", ArgumentInfo.GetOptionExpression()));
+                            string.Format("{0} <value>", ParameterInfo.GetOptionExpression()));
                     case CommandArgumentType.Flag:
                         return WrapOptionalExpression(
-                            string.Format("{0}", ArgumentInfo.GetOptionExpression()));
+                            string.Format("{0}", ParameterInfo.GetOptionExpression()));
                     default:
-                        throw new Exception("unknown argument type: " + ArgumentInfo.ArgumentType.ToString());
+                        throw new Exception("unknown argument type: " + ParameterInfo.ArgumentType.ToString());
                 }
             }
         }
 
         private string WrapOptionalExpression(string expression)
         {
-            if (ArgumentInfo.IsOptional)
+            if (ParameterInfo.IsOptional)
             {
                 return "[" + expression + "]";
             }

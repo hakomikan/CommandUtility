@@ -44,11 +44,9 @@ namespace CommandUtility
 
         public void StoreValue(CommandParameterInfo parameterInfo, string value)
         {
-            var parser = new ArgumentParser(parameterInfo);
-
             if (!ArgumentStores.ContainsKey(parameterInfo))
             {
-                ArgumentStores[parameterInfo] = parser.CreateArgumentStore();
+                ArgumentStores[parameterInfo] = parameterInfo.CreateArgumentStore();
             }
 
             ArgumentStores[parameterInfo].Store(parameterInfo.Convert(value));
@@ -56,11 +54,9 @@ namespace CommandUtility
 
         public void StoreFlag(CommandParameterInfo parameterInfo, bool flag = true)
         {
-            var parser = new ArgumentParser(parameterInfo);
-
             if (!ArgumentStores.ContainsKey(parameterInfo))
             {
-                ArgumentStores[parameterInfo] = parser.CreateArgumentStore();
+                ArgumentStores[parameterInfo] = parameterInfo.CreateArgumentStore();
             }
 
             ArgumentStores[parameterInfo].Store(flag);

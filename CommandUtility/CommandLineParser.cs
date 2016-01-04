@@ -30,7 +30,12 @@ namespace CommandUtility
             public string Value { get; private set; }
         }
 
-        private CommandClassInfo CommandClassInfo;
+        public CommandClassInfo CommandClassInfo { get; private set; }
+
+        public object[] ParseAsFunctionArguments(string[] arguments)
+        {
+            return Parse(arguments).FunctionArguments.ToArray();
+        }
 
         public CommandLineParser(Type type)
         {
@@ -53,6 +58,11 @@ namespace CommandUtility
             var restArguments3 = ParseSequentialArguments(result, restArguments2);
 
             result.RestArguments = (from argument in restArguments3 select argument.Value).ToArray();
+
+            if(0 < result.RestArguments.Count())
+            {
+                throw new TooManyArgumentException("Too many arguments: " + string.Join(",", result.RestArguments));
+            }
 
             return result;
         }

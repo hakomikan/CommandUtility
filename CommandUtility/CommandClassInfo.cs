@@ -6,10 +6,53 @@ using System.Text.RegularExpressions;
 
 namespace CommandUtility
 {
+    public enum CommandArgumentType
+    {
+        Positional,
+        Keyword,
+        Flag,
+        Variable
+    }
+
     public class CommandParameterInfo : IEqualityComparer<CommandParameterInfo>
     {
         public static CommandArgumentConverter Converter = new CommandArgumentConverter();
         public ParameterInfo ParameterInfo { get; private set; }
+
+        public string Name
+        {
+            get
+            {
+                return ParameterInfo.Name;
+            }
+        }
+
+        public CommandArgumentType ArgumentType
+        {
+            get
+            {
+                if (IsFlagArgument)
+                {
+                    return CommandArgumentType.Flag;
+                }
+                else if (IsKeywordArgument)
+                {
+                    return CommandArgumentType.Keyword;
+                }
+                else if (IsPositionalArgument)
+                {
+                    return CommandArgumentType.Positional;
+                }
+                else if (IsVariableArgument)
+                {
+                    return CommandArgumentType.Variable;
+                }
+                else
+                {
+                    throw new Exception("Unknown Type Argument");
+                }
+            }
+        }
 
         public bool IsListParameter
         {
@@ -72,6 +115,38 @@ namespace CommandUtility
             }
         }
 
+        public bool IsPositionalArgument
+        {
+            get
+            {
+                return !ParameterInfo.HasDefaultValue && ParameterInfo.ParameterType != typeof(bool) && !IsVariableArgument;
+            }
+        }
+
+        public bool IsVariableArgument
+        {
+            get
+            {
+                return ParameterInfo.GetCustomAttributes<ParamArrayAttribute>().Count() > 0;
+            }
+        }
+
+        public bool IsRequired
+        {
+            get
+            {
+                return !IsOptional;
+            }
+        }
+
+        public bool IsOptional
+        {
+            get
+            {
+                return ParameterInfo.HasDefaultValue || IsFlagArgument;
+            }
+        }
+
         public CommandParameterInfo(ParameterInfo parameterInfo)
         {
             ParameterInfo = parameterInfo;
@@ -110,6 +185,10 @@ namespace CommandUtility
             {
                 return ParameterInfo.DefaultValue;
             }
+            else if(IsFlagArgument)
+            {
+                return false;
+            }
             else
             {
                 throw new LackArgumentException("Lack argument: name = " + ParameterInfo.Name);
@@ -124,6 +203,22 @@ namespace CommandUtility
         public int GetHashCode(CommandParameterInfo obj)
         {
             return ParameterInfo.GetHashCode();
+        }
+
+        public IArgumentStore CreateArgumentStore()
+        {
+            if (IsArrayParameter)
+            {
+                return (IArgumentStore)(typeof(ArrayArgumentStore<>).MakeGenericType(ParameterType).GetConstructor(new Type[] { }).Invoke(new object[] { }));
+            }
+            else if (IsListParameter)
+            {
+                return (IArgumentStore)(typeof(ListArgumentStore<>).MakeGenericType(ParameterType).GetConstructor(new Type[] { }).Invoke(new object[] { }));
+            }
+            else
+            {
+                return new SingleArgumentStore();
+            }
         }
     }
 

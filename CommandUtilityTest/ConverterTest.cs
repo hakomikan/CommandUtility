@@ -25,9 +25,9 @@ namespace CommandUtilityTest
             public int Main([Hex64] UInt64 hexArgument) { return 0; }
         }
 
-        CommandArgumentsParser floatParser = new CommandArgumentsParser(typeof(TestFloatCommand));
-        CommandArgumentsParser int64Parser = new CommandArgumentsParser(typeof(TestInt64Command));
-        CommandArgumentsParser hexParser = new CommandArgumentsParser(typeof(TestHex64Command));
+        CommandLineParser floatParser = new CommandLineParser(typeof(TestFloatCommand));
+        CommandLineParser int64Parser = new CommandLineParser(typeof(TestInt64Command));
+        CommandLineParser hexParser = new CommandLineParser(typeof(TestHex64Command));
 
         [TestMethod]
         public void TestArgumentConverter()
@@ -41,9 +41,9 @@ namespace CommandUtilityTest
         [TestMethod]
         public void TestParsingManyTypes()
         {
-            Assert.AreEqual(0.1f, floatParser.Arguments[0].Parse("0.1"));
-            Assert.AreEqual(1L, int64Parser.Arguments[0].Parse("1"));
-            Assert.AreEqual(0x1234ABCDUL, hexParser.Arguments[0].Parse("0x1234ABCD"));
+            Assert.AreEqual(0.1f, floatParser.CommandClassInfo.MainCommand.Parameters.First().Convert("0.1"));
+            Assert.AreEqual(1L, int64Parser.CommandClassInfo.MainCommand.Parameters.First().Convert("1"));
+            Assert.AreEqual(0x1234ABCDUL, hexParser.CommandClassInfo.MainCommand.Parameters.First().Convert("0x1234ABCD"));
         }
     }
 }

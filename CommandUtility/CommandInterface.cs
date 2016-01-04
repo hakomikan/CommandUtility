@@ -13,7 +13,7 @@ namespace CommandUtility
         public CommandInterface()
         {
             this.type = typeof(T);
-            Parser = new CommandArgumentsParser(typeof(T));
+            Parser = new CommandLineParser(typeof(T));
             Invoker = new CommandInvoker<T>();
         }
 
@@ -22,12 +22,12 @@ namespace CommandUtility
             return new CommandDocument(type);
         }
 
-        public CommandArgumentsParser Parser { get; set; }
+        public CommandLineParser Parser { get; set; }
         public CommandInvoker<T> Invoker { get; set; }
 
         public int Run(string[] arguments)
         {
-            return Invoker.Invoke(Parser.ParseAsFunctionArguments(arguments).ToArray());
+            return Invoker.Invoke(Parser.Parse(arguments).FunctionArguments);
         }
     }
 

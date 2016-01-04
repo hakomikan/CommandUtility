@@ -29,11 +29,11 @@ namespace CommandUtilityTest
 
             CollectionAssert.AreEqual(
                 new List<object> { "a" },
-                (List<object>)(command.Parser.ParseAsFunctionArguments(new string[] { "a" })[0]));
+                (List<object>)(command.Parser.Parse(new string[] { "a" }).FunctionArguments[0]));
 
             CollectionAssert.AreEqual(
                 new string[] { "a", "b" },
-                (string[])command.Parser.ParseAsFunctionArguments(new string[] { "a", "b" })[0]);
+                (string[])command.Parser.Parse(new string[] { "a", "b" }).FunctionArguments[0]);
 
         }
     }

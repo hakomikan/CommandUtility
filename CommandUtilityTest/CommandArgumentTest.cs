@@ -24,12 +24,12 @@ namespace CommandUtilityTest
         [TestMethod]
         public void TestArgumentType()
         {
-            Assert.IsTrue(new CommandArgumentInfo(parameters[0]).IsPositionalArgument);
-            Assert.IsTrue(new CommandArgumentInfo(parameters[1]).IsPositionalArgument);
-            Assert.IsFalse(new CommandArgumentInfo(parameters[2]).IsPositionalArgument);
-            Assert.IsTrue(new CommandArgumentInfo(parameters[2]).IsFlagArgument);
-            Assert.IsTrue(new CommandArgumentInfo(parameters[3]).IsKeywordArgument);
-            Assert.IsTrue(new CommandArgumentInfo(parameters[4]).IsVariableArgument);
+            Assert.IsTrue(new CommandParameterInfo(parameters[0]).IsPositionalArgument);
+            Assert.IsTrue(new CommandParameterInfo(parameters[1]).IsPositionalArgument);
+            Assert.IsFalse(new CommandParameterInfo(parameters[2]).IsPositionalArgument);
+            Assert.IsTrue(new CommandParameterInfo(parameters[2]).IsFlagArgument);
+            Assert.IsTrue(new CommandParameterInfo(parameters[3]).IsKeywordArgument);
+            Assert.IsTrue(new CommandParameterInfo(parameters[4]).IsVariableArgument);
         }
     }
 }

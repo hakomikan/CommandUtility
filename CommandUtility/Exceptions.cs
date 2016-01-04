@@ -19,19 +19,6 @@ namespace CommandUtility
     }
 
     [Serializable]
-    public class LackPositionalArgumentException : Exception
-    {
-        public LackPositionalArgumentException() { }
-        public LackPositionalArgumentException(string message) : base(message) { }
-        public LackPositionalArgumentException(string message, Exception inner) : base(message, inner) { }
-        protected LackPositionalArgumentException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context) : base(info, context)
-        { }
-    }
-
-
-    [Serializable]
     public class LackArgumentException : Exception
     {
         public LackArgumentException() { }

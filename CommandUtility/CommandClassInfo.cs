@@ -14,10 +14,67 @@ namespace CommandUtility
         Variable
     }
 
+    public abstract class ICommandParameterInfo
+    {
+        public abstract object DefaultValue { get; }
+
+        public abstract bool HasConverter();
+        public abstract ICommandArgumentConverter GetConverter();
+    }
+
+    public class FunctionParameterInfo : ICommandParameterInfo
+    {
+        private ParameterInfo ParameterInfo;
+
+        public FunctionParameterInfo(ParameterInfo parameterInfo)
+        {
+            ParameterInfo = parameterInfo;
+        }
+
+        public override object DefaultValue
+        {
+            get
+            {
+                return ParameterInfo.DefaultValue;
+            }
+        }
+
+        public override ICommandArgumentConverter GetConverter()
+        {
+            return ParameterInfo.GetCustomAttribute<ICommandArgumentConverterAttribute>(true);
+        }
+
+        public override bool HasConverter()
+        {
+            return ParameterInfo.GetCustomAttribute<ICommandArgumentConverterAttribute>(true) != null;
+        }
+    }
+
+    public class ClassMemberInfo : ICommandParameterInfo
+    {
+        public override object DefaultValue
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override ICommandArgumentConverter GetConverter()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool HasConverter()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class CommandParameterInfo : IEqualityComparer<CommandParameterInfo>
     {
         public static CommandArgumentConverter Converter = new CommandArgumentConverter();
-        public ParameterInfo ParameterInfo { get; private set; }
+        public ICommandParameterInfo ParameterInfo { get; private set; }
 
         public string Name
         {
@@ -149,7 +206,7 @@ namespace CommandUtility
 
         public CommandParameterInfo(ParameterInfo parameterInfo)
         {
-            ParameterInfo = parameterInfo;
+            ParameterInfo = new FunctionParameterInfo(parameterInfo);
         }
 
         public string GetOptionExpression()
@@ -159,12 +216,12 @@ namespace CommandUtility
 
         public bool HasConverter()
         {
-            return ParameterInfo.GetCustomAttribute<ICommandArgumentConverterAttribute>(true) != null;
+            return ParameterInfo.HasConverter();
         }
 
         public ICommandArgumentConverter GetConverter()
         {
-            return ParameterInfo.GetCustomAttribute<ICommandArgumentConverterAttribute>(true);
+            return ParameterInfo.GetConverter();
         }
 
         public object Convert(string v)
@@ -269,6 +326,15 @@ namespace CommandUtility
                 }
 
                 return ret;
+            }
+        }
+
+        public IEnumerable<CommandParameterInfo> Parameters
+        {
+            get
+            {
+                //this.GetType().GetMembers(BindingFlags.Public)[0].N
+                yield return new CommandParameterInfo(null);
             }
         }
     }

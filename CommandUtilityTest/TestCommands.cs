@@ -84,6 +84,32 @@ namespace CommandUtilityTest
         }
     }
 
+    class ParameterClass
+    {
+        public int numberArgument = 0;
+        public string stringArgument = "defaultValue";
+    }
+
+    class ClassParameterCommand
+    {
+        [CommandParameter]
+        int numberArgument = 0;
+
+        public int Main()
+        {
+            Console.WriteLine(numberArgument);
+            return 0;
+        }
+    }
+
+    class ParameterClassCommand
+    {
+        public int Main(ParameterClass parameterClass)
+        {
+            return 0;
+        }
+    }
+
     class TestParameters
     {
         public static CommandParameterInfo[] Parameters = new CommandClassInfo(typeof(TestMixCommand)).MainCommand.Parameters.ToArray();

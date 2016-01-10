@@ -30,6 +30,15 @@ namespace CommandUtilityTest
             Assert.AreEqual(typeof(int), TestParameters.IntegerParamsArgument.ParameterType);
             Assert.AreEqual(typeof(int), TestParameters.IntegerListArgument.ParameterType);
         }
+
+        [TestMethod]
+        public void TestClassParameterInfo()
+        {
+            var info = new CommandClassInfo(typeof(ClassParameterCommand));
+
+            Assert.AreEqual(1, info.Parameters.Count());
+            Assert.AreEqual("numberArgument", info.Parameters.First().Name);
+        }
     }
 
 }

@@ -22,18 +22,17 @@ namespace CommandUtilityTest
         }
 
         [TestMethod]
-        [Ignore]
-        public void TestBasic()
+        public void TestParamsCommand()
         {
             var command = new CommandInterface<StringParamsCommand>();
 
             CollectionAssert.AreEqual(
-                new List<object> { "a" },
-                (List<object>)(command.Parser.Parse(new string[] { "a" }).FunctionArguments[0]));
+                new string[] { "a" },
+                (string[])(command.Parser.ParseV("a").FunctionArguments[0]));
 
             CollectionAssert.AreEqual(
                 new string[] { "a", "b" },
-                (string[])command.Parser.Parse(new string[] { "a", "b" }).FunctionArguments[0]);
+                (string[])command.Parser.ParseV("a", "b").FunctionArguments[0]);
 
         }
     }

@@ -17,6 +17,10 @@ namespace CommandUtility
     public abstract class ICommandParameterInfo
     {
         public abstract object DefaultValue { get; }
+        public abstract Type ParameterType { get; }
+        public abstract string Name { get; }
+        public abstract bool HasDefaultValue { get; }
+        public abstract bool IsParamArray { get; }
 
         public abstract bool HasConverter();
         public abstract ICommandArgumentConverter GetConverter();
@@ -39,6 +43,38 @@ namespace CommandUtility
             }
         }
 
+        public override bool HasDefaultValue
+        {
+            get
+            {
+                return ParameterInfo.HasDefaultValue;
+            }
+        }
+
+        public override bool IsParamArray
+        {
+            get
+            {
+                return ParameterInfo.GetCustomAttributes<ParamArrayAttribute>().Count() > 0;
+            }
+        }
+
+        public override string Name
+        {
+            get
+            {
+                return ParameterInfo.Name;
+            }
+        }
+
+        public override Type ParameterType
+        {
+            get
+            {
+                return ParameterInfo.ParameterType;
+            }
+        }
+
         public override ICommandArgumentConverter GetConverter()
         {
             return ParameterInfo.GetCustomAttribute<ICommandArgumentConverterAttribute>(true);
@@ -50,13 +86,52 @@ namespace CommandUtility
         }
     }
 
-    public class ClassMemberInfo : ICommandParameterInfo
+    public class ClassFieldInfo : ICommandParameterInfo
     {
+        private FieldInfo FieldInfo;
+
+        public ClassFieldInfo(FieldInfo fieldInfo)
+        {
+            FieldInfo = fieldInfo;
+        }
+
         public override object DefaultValue
         {
             get
             {
+                //throw new NotImplementedException();
+            }
+        }
+
+        public override bool HasDefaultValue
+        {
+            get
+            {
                 throw new NotImplementedException();
+            }
+        }
+
+        public override bool IsParamArray
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override string Name
+        {
+            get
+            {
+                return FieldInfo.Name;
+            }
+        }
+
+        public override Type ParameterType
+        {
+            get
+            {
+                return FieldInfo.FieldType;
             }
         }
 
@@ -184,7 +259,7 @@ namespace CommandUtility
         {
             get
             {
-                return ParameterInfo.GetCustomAttributes<ParamArrayAttribute>().Count() > 0;
+                return ParameterInfo.IsParamArray;
             }
         }
 

@@ -99,7 +99,7 @@ namespace CommandUtility
         {
             get
             {
-                //throw new NotImplementedException();
+                return null;
             }
         }
 
@@ -107,7 +107,7 @@ namespace CommandUtility
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
             }
         }
 
@@ -148,6 +148,16 @@ namespace CommandUtility
 
     public class CommandParameterInfo : IEqualityComparer<CommandParameterInfo>
     {
+        public CommandParameterInfo(ParameterInfo parameterInfo)
+        {
+            ParameterInfo = new FunctionParameterInfo(parameterInfo);
+        }
+
+        public CommandParameterInfo(FieldInfo fieldInfo)
+        {
+            ParameterInfo = new ClassFieldInfo(fieldInfo);
+        }
+
         public static CommandArgumentConverter Converter = new CommandArgumentConverter();
         public ICommandParameterInfo ParameterInfo { get; private set; }
 
@@ -279,11 +289,6 @@ namespace CommandUtility
             }
         }
 
-        public CommandParameterInfo(ParameterInfo parameterInfo)
-        {
-            ParameterInfo = new FunctionParameterInfo(parameterInfo);
-        }
-
         public string GetOptionExpression()
         {
             return "--" + Regex.Replace(ParameterInfo.Name, "[A-Z]", match => "-" + match.Captures[0].Value.ToLower());
@@ -377,6 +382,8 @@ namespace CommandUtility
                            in type.GetMethods(BindingFlags.Instance | BindingFlags.Public)
                            where method.Name == "Main"
                            select new CommandMethodInfo(method)).ToList();
+
+            Parameters = (from field in type.GetFields() select new CommandParameterInfo(field)).ToList(); ;
         }
 
         public bool HasMainCommand
@@ -404,13 +411,6 @@ namespace CommandUtility
             }
         }
 
-        public IEnumerable<CommandParameterInfo> Parameters
-        {
-            get
-            {
-                //this.GetType().GetMembers(BindingFlags.Public)[0].N
-                yield return new CommandParameterInfo(null);
-            }
-        }
+        public IEnumerable<CommandParameterInfo> Parameters { get; private set; }
     }
 }

@@ -31,6 +31,11 @@ namespace CommandUtilityTest
             Assert.AreEqual(typeof(int), TestParameters.IntegerListArgument.ParameterType);
         }
 
+        class TestClass
+        {
+            public int IntField = 3;
+        }
+
         [TestMethod]
         public void TestClassParameterInfo()
         {

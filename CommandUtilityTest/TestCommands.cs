@@ -93,7 +93,7 @@ namespace CommandUtilityTest
     class ClassParameterCommand
     {
         [CommandParameter]
-        int numberArgument = 0;
+        public int numberArgument = 0;
 
         public int Main()
         {

@@ -95,10 +95,16 @@ namespace CommandUtilityTest
         [CommandParameter]
         public int numberArgument = 0;
 
+        [CommandParameter]
+        public string stringArgument = "";
+
+        [CommandParameter]
+        public bool flagArgument = false;
+
         public int Main()
         {
             Console.WriteLine(numberArgument);
-            return 123;
+            return numberArgument * 2;
         }
     }
 

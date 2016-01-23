@@ -177,7 +177,7 @@ namespace CommandUtility
 
         public CommandParameterInfo MatchKeywordArgument(string v)
         {
-            foreach (var parameter in this.CommandClassInfo.MainCommand.Parameters)
+            foreach (var parameter in this.CommandClassInfo.Parameters)
             {
                 if (parameter.IsKeywordArgument && parameter.GetOptionExpression() == v)
                 {
@@ -189,7 +189,7 @@ namespace CommandUtility
 
         public CommandParameterInfo MatchFlagArgument(string v)
         {
-            foreach (var parameter in this.CommandClassInfo.MainCommand.Parameters)
+            foreach (var parameter in this.CommandClassInfo.Parameters)
             {
                 if (parameter.IsFlagArgument && parameter.GetOptionExpression() == v)
                 {

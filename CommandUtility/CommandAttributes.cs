@@ -9,4 +9,8 @@ namespace CommandUtility
     public class CommandParameterAttribute : Attribute
     {
     }
+
+    public class PositionalParameterAttribute : Attribute
+    {
+    }
 }

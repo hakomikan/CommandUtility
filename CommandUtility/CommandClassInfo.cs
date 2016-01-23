@@ -99,7 +99,14 @@ namespace CommandUtility
         {
             get
             {
-                return null;
+                if(ParameterType.IsValueType)
+                {
+                    return Activator.CreateInstance(ParameterType);
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -107,7 +114,7 @@ namespace CommandUtility
         {
             get
             {
-                return false;
+                return true;
             }
         }
 
@@ -115,7 +122,7 @@ namespace CommandUtility
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
             }
         }
 
@@ -383,7 +390,9 @@ namespace CommandUtility
                            where method.Name == "Main"
                            select new CommandMethodInfo(method)).ToList();
 
-            Parameters = (from field in type.GetFields() select new CommandParameterInfo(field)).ToList(); ;
+            Parameters = (from field in type.GetFields() select new CommandParameterInfo(field))
+                .Concat(MainCommand.Parameters)
+                .ToList();
         }
 
         public bool HasMainCommand

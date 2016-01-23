@@ -16,6 +16,25 @@ namespace CommandUtilityTest
         }
 
         [TestMethod]
+        public void TestClassParameterType()
+        {
+            var info = new CommandClassInfo(typeof(ClassParameterCommand));
+
+            Assert.AreEqual(CommandArgumentType.Keyword, info.Parameters.ToArray()[0].ArgumentType);
+            Assert.AreEqual(CommandArgumentType.Keyword, info.Parameters.ToArray()[1].ArgumentType);
+            Assert.AreEqual(CommandArgumentType.Flag,    info.Parameters.ToArray()[2].ArgumentType);
+        }
+
+        [TestMethod]
+        public void TestParseClassParameter()
+        {
+            var parser = new CommandLineParser(typeof(ClassParameterCommand));
+
+            var store = parser.ParseV("3");
+            Assert.AreEqual(0, store.RestArguments.Length);
+        }
+
+        [TestMethod]
         public void TestInvokeClassParameterCommandAsCommandInterface()
         {
             var command = new CommandInterface<ClassParameterCommand>();
@@ -26,7 +45,7 @@ namespace CommandUtilityTest
         public void TestInvokeClassParameterCommand()
         {
             var command = new ClassParameterCommand();
-            Assert.AreEqual(123, command.Invoke(new string[] { "3" }));
+            Assert.AreEqual(6, command.Invoke(new string[] { "3" }));
             Assert.AreEqual(3, command.numberArgument);
         }
     }

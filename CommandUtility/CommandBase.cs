@@ -10,7 +10,12 @@ namespace CommandUtility
     {
         public static void Main(string[] args)
         {
-            new CommandInterface<T>().Run(args.Skip(1).ToArray());
+            Environment.ExitCode = new CommandInterface<T>().Run(args.Skip(1).ToArray());
+        }
+
+        public int Invoke(string[] args)
+        {
+            return new CommandInterface<T>().Run(args);
         }
     }
 }

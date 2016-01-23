@@ -9,12 +9,25 @@ namespace CommandUtilityTest
     public class ClassParameterTest
     {
         [TestMethod]
-        [Ignore]
         public void TestClassParameter()
         {
             var info = new CommandClassInfo(typeof(ClassParameterCommand));
+            Assert.AreEqual(1, info.Parameters.Count());
+        }
 
-            Assert.AreEqual(1, info.MainCommand.Parameters.Count());
+        [TestMethod]
+        public void TestInvokeClassParameterCommandAsCommandInterface()
+        {
+            var command = new CommandInterface<ClassParameterCommand>();
+            Assert.AreEqual(6, command.Run(new string[] { "3" }));
+        }
+
+        [TestMethod]
+        public void TestInvokeClassParameterCommand()
+        {
+            var command = new ClassParameterCommand();
+            Assert.AreEqual(123, command.Invoke(new string[] { "3" }));
+            Assert.AreEqual(3, command.numberArgument);
         }
     }
 }

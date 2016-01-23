@@ -90,7 +90,7 @@ namespace CommandUtilityTest
         public string stringArgument = "defaultValue";
     }
 
-    class ClassParameterCommand
+    class ClassParameterCommand : CommandBase<ClassParameterCommand>
     {
         [CommandParameter]
         public int numberArgument = 0;
@@ -98,7 +98,7 @@ namespace CommandUtilityTest
         public int Main()
         {
             Console.WriteLine(numberArgument);
-            return 0;
+            return 123;
         }
     }
 

@@ -108,6 +108,20 @@ namespace CommandUtilityTest
         }
     }
 
+    class MixParameterCommand : CommandBase<MixParameterCommand>
+    {
+        [CommandParameter]
+        public int numberArgument1 = 0;
+
+        [CommandParameter]
+        public string stringArgument1 = "";
+
+        public int Main(int numberArgument2, string stringArguent2)
+        {
+            return numberArgument1 * numberArgument2;
+        }
+    }
+
     class ParameterClassCommand
     {
         public int Main(ParameterClass parameterClass)

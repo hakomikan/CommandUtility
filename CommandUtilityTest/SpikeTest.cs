@@ -30,10 +30,15 @@ namespace CommandUtilityTest
             // Process
             //   Assign
             //   Invoke
+            var instance = default(T);
+
+            var instanceArgumentCollector = new InstanceArgumentCollector<T>();
+            var instanceAssigner = new InstanceAssigner<T>(instance);
+            instanceAssigner.AssginArguments(instanceArgumentCollector);
+
             var functionArgumentCollector = new FunctionArgumentCollector<T>();
-            var functionArguments = functionArgumentCollector.GetArguments();
-            var invoker = new CommandUtility.CommandInvoker<T>();
-            return invoker.Invoke(functionArguments);
+            var invoker = new CommandUtility.CommandInvoker<T>(instance);
+            return invoker.Invoke(functionArgumentCollector.GetArguments());
         }
     }
 

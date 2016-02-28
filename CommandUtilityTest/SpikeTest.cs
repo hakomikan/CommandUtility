@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -25,32 +26,26 @@ namespace CommandUtilityTest
 
         public int Run(string[] arguments)
         {
-            // Convert
-            // Match
-            // Process
-            //   Assign
-            //   Invoke
             var instance = default(T);
-
-            var instanceArgumentCollector = new InstanceArgumentCollector<T>();
-            var instanceAssigner = new InstanceAssigner<T>(instance);
-            instanceAssigner.AssginArguments(instanceArgumentCollector);
-
-            var functionArgumentCollector = new FunctionArgumentCollector<T>();
-            var invoker = new CommandUtility.CommandInvoker<T>(instance);
-            return invoker.Invoke(functionArgumentCollector.GetArguments());
-        }
-    }
-
-    class FunctionArgumentCollector<T> where T : class, new()
-    {
-        public FunctionArgumentCollector()
-        {
+            return Run(instance, arguments);
         }
 
-        public object[] GetArguments()
+        public int Run(T instance, string[] arguments)
         {
-            throw new NotImplementedException();
+            // CollectParameters
+            List<ICommandParameter> parameters = this.Collect(instance);
+            
+            // Match
+            List<Tuple<ICommandParameter, string>> machedArguments = this.Match(parameters, arguments);
+            
+            // Convert
+            List<Tuple<ICommandParameter, object>> convertedArguments = this.Convert(machedArguments);
+
+            // Assign
+            this.Assign(instance, convertedArguments);
+
+            // Invoke
+            return this.Invoke(instance, convertedArguments);
         }
     }
 }

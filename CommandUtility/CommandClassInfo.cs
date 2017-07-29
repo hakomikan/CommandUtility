@@ -390,9 +390,16 @@ namespace CommandUtility
                            where method.Name == "Main"
                            select new CommandMethodInfo(method)).ToList();
 
-            Parameters = (from field in type.GetFields() select new CommandParameterInfo(field))
-                .Concat(MainCommand.Parameters)
-                .ToList();
+            if (HasMainCommand)
+            {
+                Parameters = (from field in type.GetFields() select new CommandParameterInfo(field))
+                    .Concat(MainCommand.Parameters)
+                    .ToList();
+            }
+            else
+            {
+                Parameters = new List<CommandParameterInfo>();
+            }
         }
 
         public bool HasMainCommand

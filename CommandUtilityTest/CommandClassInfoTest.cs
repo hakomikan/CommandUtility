@@ -41,7 +41,7 @@ namespace CommandUtilityTest
         {
             var info = new CommandClassInfo(typeof(ClassParameterCommand));
 
-            Assert.AreEqual(1, info.Parameters.Count());
+            Assert.AreEqual(3, info.Parameters.Count());
             Assert.AreEqual("numberArgument", info.Parameters.First().Name);
         }
     }

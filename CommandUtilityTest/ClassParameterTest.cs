@@ -6,6 +6,7 @@ using System.Linq;
 namespace CommandUtilityTest
 {
     [TestClass]
+    [Ignore]
     public class ClassParameterTest
     {
         [TestMethod]

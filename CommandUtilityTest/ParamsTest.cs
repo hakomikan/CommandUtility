@@ -24,7 +24,7 @@ namespace CommandUtilityTest
         [TestMethod]
         public void TestParamsCommand()
         {
-            var command = new CommandInterface<StringParamsCommand>();
+            var command = new CommandUtility.CommandInterface<StringParamsCommand>();
 
             CollectionAssert.AreEqual(
                 new string[] { "a" },

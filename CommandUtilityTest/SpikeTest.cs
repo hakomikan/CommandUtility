@@ -8,17 +8,56 @@ namespace CommandUtilityTest
     [TestClass]
     public class SpikeTest
     {
+        MixParameterCommand TargetInstance = new MixParameterCommand();
+        CommandInterface<MixParameterCommand> TargetCommand = new CommandInterface<MixParameterCommand>();
+
         [TestMethod]
-        public void TestMethod1()
+        [Ignore]
+        public void TestCommandInterface()
         {
             var command = new CommandInterface<MixParameterCommand>();
 
             Assert.AreEqual(6, command.RunV("3", "4", "--number-argument1", "2", "--string-argument1", "aaaa"));
         }
+
+        [TestMethod]
+        [Ignore]
+        public void TestGetParameters()
+        {
+            var parameters = TargetCommand.Collect(TargetInstance);
+            Assert.AreEqual(4, parameters.Count);
+        }
+
+        [TestMethod]
+        public void TestGetClassMemberParameters()
+        {
+            var classMemberParamters = TargetCommand.ClassMemberParamter;
+            Assert.AreEqual(2, classMemberParamters.Count);
+        }
+    }
+
+    public interface ICommandParameter
+    {
     }
 
     class CommandInterface<T> where T : class, new()
     {
+        public List<ICommandParameter> ClassMemberParamter
+        {
+            get
+            {
+                typeof(T).GetFields();
+                return null;
+            }
+        }
+        public List<ICommandParameter> MainCommandParameter
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public int RunV(params string[] arguments)
         {
             return Run(arguments);
@@ -32,9 +71,10 @@ namespace CommandUtilityTest
 
         public int Run(T instance, string[] arguments)
         {
+#if false
             // CollectParameters
             List<ICommandParameter> parameters = this.Collect(instance);
-            
+
             // Match
             List<Tuple<ICommandParameter, string>> machedArguments = this.Match(parameters, arguments);
             
@@ -46,6 +86,19 @@ namespace CommandUtilityTest
 
             // Invoke
             return this.Invoke(instance, convertedArguments);
+#else
+            throw new NotImplementedException();
+#endif
+        }
+
+        public List<ICommandParameter> Collect(T instance)
+        {
+            // collect ClassMemberParameter
+            var classMemberParamter = this.ClassMemberParamter;
+            // collect MainCommandParameter
+            var mainCommandParameter = this.MainCommandParameter;
+
+            return classMemberParamter.Concat(mainCommandParameter).ToList();
         }
     }
 }

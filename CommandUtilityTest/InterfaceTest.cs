@@ -32,7 +32,7 @@ namespace CommandUtilityTest
         [TestMethod]
         public void IntafaceTest()
         {
-            var command = new CommandInterface<TestMixCommand>();
+            var command = new CommandUtility.CommandInterface<TestMixCommand>();
 
             Assert.AreEqual(0, command.Run(new string[] { "--flag-argument", "--keyword-argument", "keywordValue", "str", "2" }));
             Assert.AreEqual("str", TestMixCommand.StringArgument);

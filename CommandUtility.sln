@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandUtilityTest", "CommandUtilityTest\CommandUtilityTest.csproj", "{0340AEDA-D20A-46F8-A61A-6310DE7C15D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandUtility", "CommandUtility\CommandUtility.csproj", "{B237B86D-784B-4933-833F-0DF7436DAB3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandInterface", "CommandInterface\CommandInterface.csproj", "{AE0D18B9-6DEF-479C-B526-C2F09397EE1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandInterfaceTest", "CommandInterfaceTest\CommandInterfaceTest.csproj", "{58C44DA2-021B-49E3-B243-B1E940080C07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{B237B86D-784B-4933-833F-0DF7436DAB3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B237B86D-784B-4933-833F-0DF7436DAB3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B237B86D-784B-4933-833F-0DF7436DAB3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE0D18B9-6DEF-479C-B526-C2F09397EE1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE0D18B9-6DEF-479C-B526-C2F09397EE1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE0D18B9-6DEF-479C-B526-C2F09397EE1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE0D18B9-6DEF-479C-B526-C2F09397EE1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58C44DA2-021B-49E3-B243-B1E940080C07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58C44DA2-021B-49E3-B243-B1E940080C07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58C44DA2-021B-49E3-B243-B1E940080C07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58C44DA2-021B-49E3-B243-B1E940080C07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

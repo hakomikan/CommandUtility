@@ -29,6 +29,7 @@ namespace CommandUtilityTest
         }
 
         [TestMethod]
+        [Ignore]
         public void TestGetClassMemberParameters()
         {
             var classMemberParamters = TargetCommand.ClassMemberParamter;

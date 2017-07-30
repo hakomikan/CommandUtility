@@ -6,9 +6,19 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using System.IO;
 using System.Reflection;
+using static CommandInterfaceTest.CommandRunner;
+using Microsoft.CodeAnalysis.Scripting.Hosting;
 
 namespace CommandInterfaceTest
 {
+    public class CommandRunner
+    {
+        public static void RunCommand(string commandName, params string[] parameters)
+        {
+
+        }
+    }
+
     [TestClass]
     public class UnitTest1
     {
@@ -37,7 +47,7 @@ namespace CommandInterfaceTest
 ");
 
             CSharpCompilation compilation = CSharpCompilation.Create(
-                "assemblyName",
+                "ScriptAssembly",
                 new[] { syntaxTree },
                 new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
                 new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
@@ -61,6 +71,49 @@ namespace CommandInterfaceTest
                     throw new Exception("ahhh");
                 }
             }
+        }
+
+        [TestMethod]
+        public void InterfaceTest()
+        {
+            RunCommand("create", "new-command");
+            RunCommand("edit", "new-command");
+            RunCommand("list", "new-command");
+            RunCommand("delete", "new-command");
+        }
+
+        public DirectoryInfo GetScriptDirectory()
+        {
+            return new DirectoryInfo(
+                Path.GetFullPath(
+                    Path.Combine(
+                        AppDomain.CurrentDomain.BaseDirectory,
+                        "../../Scripts")));
+        }
+
+        public Config GetTestConfig()
+        {
+            return new Config()
+            {
+                ScriptDirectory = GetScriptDirectory()
+            };
+        }
+
+        [TestMethod]
+        public void ListCommands()
+        {
+            var commandManager = new CommandManager(GetTestConfig());
+
+            Console.WriteLine(GetScriptDirectory().FullName);
+            Console.WriteLine(string.Join(",", commandManager.ListCommands()));
+
+            CollectionAssert.AreEqual(
+                new string[]
+                {
+                    "test-script-1",
+                    "test-script-2"
+                },
+                commandManager.ListCommands());
         }
     }
 }

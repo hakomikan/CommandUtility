@@ -58,5 +58,12 @@ namespace CommandInterfaceTest
                 GetTestScriptPath("TestScript.cs"),
                 CommandManager.GetScriptPath("test-script"));
         }
+
+        [TestMethod]
+        public void ExecuteScript()
+        {
+            Assert.AreEqual(333, CommandManager.Execute("test-script"));
+            Assert.AreEqual(666, CommandManager.Execute("test-script2"));
+        }
     }
 }

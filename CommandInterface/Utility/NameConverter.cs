@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
-namespace CommandInterface
+namespace CommandInterface.Utility
 {
-    public static class NameUtility
+    public static class NameConverter
     {
         private static readonly Regex ScriptNamePattern = new Regex("^([A-Z][a-z0-9]*)+.cs$");
         private static readonly Regex CommandNamePattern = new Regex("^((?<word>[a-z][a-z0-9]*)-)*(?<word>[a-z][a-z0-9]*)$");

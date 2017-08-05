@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static CommandInterface.NameUtility;
+using static CommandInterface.Utility.NameConverter;
 
 namespace CommandInterfaceTest
 {

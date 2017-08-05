@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using static CommandInterface.NameUtility;
+using static CommandInterface.Utility.NameConverter;
 
 namespace CommandInterface
 {
@@ -35,6 +35,11 @@ namespace CommandInterface
             {
                 throw new ScriptNotFoundException(commandName);
             }
+        }
+
+        public int Execute(string commandName, params string[] parameters)
+        {
+            return Utility.CSharpAssembly.ExecuteScriptFromFile<int>(new FileInfo(GetScriptPath(commandName)));
         }
 
         private Config Config;

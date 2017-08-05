@@ -20,7 +20,7 @@ namespace CommandInterfaceTest
     }
 
     [TestClass]
-    public class UnitTest1
+    public class SpikeTest
     {
         [TestMethod]
         public async Task TestMethod1()
@@ -110,8 +110,8 @@ namespace CommandInterfaceTest
             CollectionAssert.AreEqual(
                 new string[]
                 {
-                    "test-script-1",
-                    "test-script-2"
+                    "test-script",
+                    "test-script2"
                 },
                 commandManager.ListCommands());
         }

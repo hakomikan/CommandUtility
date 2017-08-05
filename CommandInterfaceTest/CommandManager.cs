@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using static CommandInterface.NameUtility;
 
 namespace CommandInterfaceTest
 {
@@ -18,7 +19,7 @@ namespace CommandInterfaceTest
 
         public string[] ListCommands()
         {
-            return Config.ScriptDirectory.EnumerateFiles().Select(fileInfo => fileInfo.Name).ToArray();
+            return Config.ScriptDirectory.EnumerateFiles().Select(fileInfo => ConvertToCommandName(fileInfo.Name)).ToArray();
         }
 
         private Config Config;

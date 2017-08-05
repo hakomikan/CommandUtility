@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace CommandInterface
 {
-
     [Serializable]
     public class InvalidDataException : Exception
     {
@@ -14,6 +13,18 @@ namespace CommandInterface
         public InvalidDataException(string message) : base(message) { }
         public InvalidDataException(string message, Exception inner) : base(message, inner) { }
         protected InvalidDataException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
+
+
+    [Serializable]
+    public class ScriptNotFoundException : Exception
+    {
+        public ScriptNotFoundException() { }
+        public ScriptNotFoundException(string message) : base(message) { }
+        public ScriptNotFoundException(string message, Exception inner) : base(message, inner) { }
+        protected ScriptNotFoundException(
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }

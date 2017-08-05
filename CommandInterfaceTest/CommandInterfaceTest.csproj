@@ -154,11 +154,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CommandManager.cs" />
+    <Compile Include="CommandManagerTest.cs" />
     <Compile Include="NameConverterTest.cs" />
     <Compile Include="Scripts\TestScript.cs" />
     <Compile Include="Scripts\TestScript2.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="SpikeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

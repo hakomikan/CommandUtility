@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using System.IO;
 using System.Reflection;
+using CommandInterface;
 using static CommandInterfaceTest.CommandRunner;
 using Microsoft.CodeAnalysis.Scripting.Hosting;
 
@@ -82,38 +83,6 @@ namespace CommandInterfaceTest
             RunCommand("delete", "new-command");
         }
 
-        public DirectoryInfo GetScriptDirectory()
-        {
-            return new DirectoryInfo(
-                Path.GetFullPath(
-                    Path.Combine(
-                        AppDomain.CurrentDomain.BaseDirectory,
-                        "../../Scripts")));
-        }
 
-        public Config GetTestConfig()
-        {
-            return new Config()
-            {
-                ScriptDirectory = GetScriptDirectory()
-            };
-        }
-
-        [TestMethod]
-        public void ListCommands()
-        {
-            var commandManager = new CommandManager(GetTestConfig());
-
-            Console.WriteLine(GetScriptDirectory().FullName);
-            Console.WriteLine(string.Join(",", commandManager.ListCommands()));
-
-            CollectionAssert.AreEqual(
-                new string[]
-                {
-                    "test-script",
-                    "test-script2"
-                },
-                commandManager.ListCommands());
-        }
     }
 }

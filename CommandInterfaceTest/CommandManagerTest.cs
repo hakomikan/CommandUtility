@@ -64,6 +64,7 @@ namespace CommandInterfaceTest
         {
             Assert.AreEqual(333, CommandManager.Execute("test-script"));
             Assert.AreEqual(666, CommandManager.Execute("test-script2"));
+            Assert.AreEqual(444, CommandManager.Execute("test-script-use-module"));
         }
     }
 }

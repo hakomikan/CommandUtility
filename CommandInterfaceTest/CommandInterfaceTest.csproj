@@ -157,6 +157,7 @@
     <Compile Include="CommandManagerTest.cs" />
     <Compile Include="NameConverterTest.cs" />
     <Compile Include="Scripts\TestScript.cs" />
+    <Compile Include="Scripts\TestScriptUseModule.cs" />
     <Compile Include="Scripts\TestScript2.cs" />
     <Compile Include="SpikeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using static CommandInterface.Utility.CSharpAssembly;
 using static CommandInterface.Utility.NameConverter;
 
 namespace CommandInterface
@@ -39,7 +40,8 @@ namespace CommandInterface
 
         public int Execute(string commandName, params string[] parameters)
         {
-            return Utility.CSharpAssembly.ExecuteScriptFromFile<int>(new FileInfo(GetScriptPath(commandName)));
+            var scriptFileInfo = new FileInfo(GetScriptPath(commandName));
+            return ExecuteScriptFromFile<int>(scriptFileInfo);
         }
 
         private Config Config;

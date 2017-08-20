@@ -12,6 +12,21 @@ using System.Reflection;
 
 namespace CommandInterface.Utility
 {
+    public class ScriptExecutionException : Exception
+    {
+        public ScriptExecutionException(string fileName, Microsoft.CodeAnalysis.Emit.EmitResult emitResult) 
+            : base(MakeMessage(fileName, emitResult))
+        { }
+
+        private static string MakeMessage(string fileName, Microsoft.CodeAnalysis.Emit.EmitResult emitResult)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"ScriptExecutionException:");
+            sb.AppendLine($"");
+            return sb.ToString();
+        }
+    }
+
     public static class CSharpAssembly
     {
         public static ReturnType ExecuteScriptFromFile<ReturnType>(FileInfo fileInfo)
@@ -45,6 +60,11 @@ namespace CommandInterface.Utility
                 }
                 else
                 {
+                    foreach (var diagInfo in emitResult.Diagnostics)
+                    {
+                        Console.Error.WriteLine(diagInfo.Location);
+                        Console.Error.WriteLine(diagInfo.GetMessage());
+                    }
                     throw new Exception(emitResult.Diagnostics.ToString());
                 }
             }

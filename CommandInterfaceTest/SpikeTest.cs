@@ -30,51 +30,6 @@ namespace CommandInterfaceTest
         }
 
         [TestMethod]
-        public void RunAsScript()
-        {
-            var syntaxTree = CSharpSyntaxTree.ParseText(@"using System;
-using System.Collections.Generic;
-
-namespace CommandInterfaceTest
-{
-    public class TestScript
-    {
-        public static int Main()
-        {
-            return 0;
-        }
-    }
-}
-");
-
-            CSharpCompilation compilation = CSharpCompilation.Create(
-                "ScriptAssembly",
-                new[] { syntaxTree },
-                new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
-                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
-            using (var dll = new MemoryStream())
-            using (var pdb = new MemoryStream())
-            {
-                var emitResult = compilation.Emit(dll, pdb);
-                if (emitResult.Success)
-                {
-                    var assembly = Assembly.Load(dll.ToArray(), pdb.ToArray());
-                    var types = assembly.GetTypes();
-                    var targetClass = types[0];
-                    var targetMethods = targetClass.GetMethods();
-                    var methodBase = targetClass.GetMethod("Main", BindingFlags.Static | BindingFlags.Public);
-
-                    Assert.AreEqual(0, methodBase.Invoke(null, null));
-                }
-                else
-                {
-                    throw new Exception("ahhh");
-                }
-            }
-        }
-
-        [TestMethod]
         public void InterfaceTest()
         {
             RunCommand("create", "new-command");

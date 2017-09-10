@@ -20,9 +20,19 @@ namespace CommandInterface.Utility
 
         private static string MakeMessage(string fileName, Microsoft.CodeAnalysis.Emit.EmitResult emitResult)
         {
+            var errorMessages = new StringBuilder();
+            foreach (var diag in emitResult.Diagnostics)
+            {
+                errorMessages.AppendLine($"  - {diag.Id}");
+                errorMessages.AppendLine($"    {diag.GetMessage()}");
+                errorMessages.AppendLine($"    {diag.Location}");
+            }
+
             var sb = new StringBuilder();
-            sb.AppendLine($"ScriptExecutionException:");
-            sb.AppendLine($"");
+            sb.AppendLine(
+                $@"ScriptExecutionException:
+{errorMessages.ToString()}
+");
             return sb.ToString();
         }
     }
@@ -41,7 +51,10 @@ namespace CommandInterface.Utility
             CSharpCompilation compilation = CSharpCompilation.Create(
                 "ScriptAssembly",
                 new[] { syntaxTree },
-                new[] { MetadataReference.CreateFromFile(typeof(object).Assembly.Location) },
+                new[] {
+                    MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+                    MetadataReference.CreateFromFile(typeof(CommandManager).Assembly.Location)
+                },
                 new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
             using (var dll = new MemoryStream())
@@ -60,12 +73,7 @@ namespace CommandInterface.Utility
                 }
                 else
                 {
-                    foreach (var diagInfo in emitResult.Diagnostics)
-                    {
-                        Console.Error.WriteLine(diagInfo.Location);
-                        Console.Error.WriteLine(diagInfo.GetMessage());
-                    }
-                    throw new Exception(emitResult.Diagnostics.ToString());
+                    throw new ScriptExecutionException("None", emitResult);
                 }
             }
         }

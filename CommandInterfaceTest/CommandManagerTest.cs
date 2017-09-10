@@ -42,13 +42,10 @@ namespace CommandInterfaceTest
         {
             Console.WriteLine(string.Join(",", CommandManager.ListCommands()));
 
-            CollectionAssert.AreEqual(
-                new string[]
-                {
-                    "test-script",
-                    "test-script2"
-                },
-                CommandManager.ListCommands());
+            var commands = CommandManager.ListCommands();
+            Assert.IsTrue(2 <= commands.Length);
+            CollectionAssert.Contains(commands, "test-script");
+            CollectionAssert.Contains(commands, "test-script2");
         }
 
         [TestMethod]

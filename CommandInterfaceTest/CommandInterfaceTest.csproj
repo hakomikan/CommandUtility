@@ -161,6 +161,7 @@
     <Compile Include="Scripts\TestScript2.cs" />
     <Compile Include="SpikeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\ProjectConstructorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

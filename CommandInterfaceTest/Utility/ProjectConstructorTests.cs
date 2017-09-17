@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommandInterface;
 using System.IO;
+using TestUtility;
 
 namespace CommandInterface.Utility.Tests
 {
@@ -16,13 +17,16 @@ namespace CommandInterface.Utility.Tests
         [TestMethod()]
         public void ProjectConstructorTest()
         {
-            var constructor = new ProjectConstructor();
+            using (var holder = new TemporaryFileHolder("ProjectConstructor"))
+            {
+                var constructor = new ProjectConstructor();
 
-            // プロジェクトを生成する
-            constructor.CreateProject();
+                // プロジェクトを生成する
+                constructor.CreateProject();
 
-            // 生成されたプロジェクトファイルを確認する
-            Assert.IsTrue(File.Exists(constructor.ProjectPath));            
+                // 生成されたプロジェクトファイルを確認する
+                Assert.IsTrue(File.Exists(constructor.ProjectPath));
+            }
         }
     }
 }

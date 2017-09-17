@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TestUtility
 {
-    public class Class1
+    public class FileUtility
     {
+        // テスト用のテンポラリファイルを作るユーティリティを作る関数
     }
 }

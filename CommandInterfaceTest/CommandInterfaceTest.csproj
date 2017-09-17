@@ -176,6 +176,10 @@
       <Project>{ae0d18b9-6def-479c-b526-c2f09397ee1c}</Project>
       <Name>CommandInterface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestUtility\TestUtility.csproj">
+      <Project>{63dbe9a0-66a1-4c93-9195-2f5927e42210}</Project>
+      <Name>TestUtility</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

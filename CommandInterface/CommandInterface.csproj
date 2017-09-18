@@ -104,6 +104,7 @@
   <ItemGroup>
     <Compile Include="CommandManager.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="Utility\ProjectTemplate.cs" />
     <Compile Include="Utility\NameConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

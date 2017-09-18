@@ -17,6 +17,8 @@ namespace CommandInterface.Utility
 
         public void CreateProject()
         {
+            // テンプレート内のXML を順番に加工していく
+
             throw new NotImplementedException();
         }
     }

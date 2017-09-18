@@ -9,8 +9,12 @@ namespace TestUtility
 {
     public class TemporaryFileHolder : IDisposable
     {
-        public TemporaryFileHolder(string name = "")
+        public DirectoryInfo WorkSpaceDirectory { get; private set; }
+        public bool AfterDelete { get; private set; }
+
+        public TemporaryFileHolder(string name = "", bool afterDelete = true)
         {
+            AfterDelete = afterDelete;
             WorkSpaceDirectory = MakeWorkSpaceDirectory(
                 new DirectoryInfo(Path.GetTempPath()),
                 name);
@@ -18,8 +22,9 @@ namespace TestUtility
             EnsureWorkSpace(WorkSpaceDirectory);
         }
 
-        public TemporaryFileHolder(DirectoryInfo rootDirectory, string name = "")
+        public TemporaryFileHolder(DirectoryInfo rootDirectory, string name = "", bool afterDelete = true)
         {
+            AfterDelete = afterDelete;
             WorkSpaceDirectory = MakeWorkSpaceDirectory(
                 rootDirectory,
                 name);
@@ -63,11 +68,9 @@ namespace TestUtility
             }
         }
 
-        public DirectoryInfo WorkSpaceDirectory { get; private set; }
-
         public void Dispose()
         {
-            if(Directory.Exists(WorkSpaceDirectory.FullName))
+            if(Directory.Exists(WorkSpaceDirectory.FullName) && AfterDelete)
             {
                 WorkSpaceDirectory.Delete(true);
             }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CommandInterface;
 using System.IO;
 using TestUtility;
+using System.Diagnostics;
 
 namespace CommandInterface.Utility.Tests
 {
@@ -18,25 +19,24 @@ namespace CommandInterface.Utility.Tests
         public void ProjectConstructorTest()
         {
             // TODO: テスト用の作業スペースを使うようにする
-            using (var holder = new TemporaryFileHolder("ProjectConstructor"))
+            using (var holder = new TemporaryFileHolder("ProjectConstructor", afterDelete: false))
             {
-                // もととなるスクリプトファイルを用意する
                 var script1 = holder.MakeCopiedFile("./Scripts/TestScript.cs", CommandManager.GetScriptPath("test-script"));
                 var script2 = holder.MakeCopiedFile("./Scripts/TestScript2.cs", CommandManager.GetScriptPath("test-script2"));
                 var projectPath = holder.MakeFilePath("./TestProject.csproj");
+                var solutionPath = holder.MakeFilePath("./TestSolution.sln");
 
                 var constructor = new ProjectConstructor();
-
-                // プロジェクトを生成する
                 constructor.CreateProject(
                     projectPath,
+                    solutionPath,
                     new List<FileInfo>() { script1, script2 });
 
-                // 生成されたプロジェクトファイルを確認する
                 Assert.IsTrue(File.Exists(constructor.ProjectPath.FullName));
+
+                TestUtility.FileUtility.OpenDirectory(holder.WorkSpaceDirectory);
             }
 
-            // TODO: 出来上がったプロジェクトを消さずにフォルダを開くようにする
             throw new NotImplementedException();
         }
     }

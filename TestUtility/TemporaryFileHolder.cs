@@ -27,6 +27,42 @@ namespace TestUtility
             EnsureWorkSpace(WorkSpaceDirectory);
         }
 
+        public FileInfo MakeCopiedFile(string destPath, string srcPath)
+        {
+            var destFullPath = Path.Combine(WorkSpaceDirectory.FullName, destPath);
+            var srcFullPath = Path.GetFullPath(srcPath);
+
+            EnsureDirectory(destFullPath);
+
+            File.Copy(srcFullPath, destFullPath);
+
+            return new FileInfo(destFullPath);
+        }
+
+        public FileInfo MakeFilePath(string path)
+        {
+            return new FileInfo(Path.Combine(WorkSpaceDirectory.FullName, path));
+        }
+
+        private DirectoryInfo EnsureDirectory(string targetFilePath)
+        {
+            return EnsureDirectory(new FileInfo(targetFilePath));
+        }
+
+        private DirectoryInfo EnsureDirectory(FileInfo targetFilePath)
+        {
+            var dirName = Path.GetDirectoryName(targetFilePath.FullName);
+
+            if(Directory.Exists(dirName))
+            {
+                return new DirectoryInfo(dirName);
+            }
+            else
+            {
+                return Directory.CreateDirectory(dirName);
+            }
+        }
+
         public DirectoryInfo WorkSpaceDirectory { get; private set; }
 
         public void Dispose()

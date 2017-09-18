@@ -154,6 +154,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CommandInterfaceTestBase.cs" />
     <Compile Include="CommandManagerTest.cs" />
     <Compile Include="NameConverterTest.cs" />
     <Compile Include="Scripts\TestScript.cs" />

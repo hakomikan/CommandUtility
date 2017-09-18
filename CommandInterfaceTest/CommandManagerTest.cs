@@ -6,37 +6,8 @@ using CommandInterface;
 namespace CommandInterfaceTest
 {
     [TestClass]
-    public class CommandManagerTest
+    public class CommandManagerTest : CommandInterfaceTestBase
     {
-        public CommandManagerTest()
-        {
-            this.CommandManager = new CommandManager(GetTestConfig());
-        }
-
-        public CommandManager CommandManager { get; set; }
-
-        public DirectoryInfo GetScriptDirectory()
-        {
-            return new DirectoryInfo(
-                Path.GetFullPath(
-                    Path.Combine(
-                        AppDomain.CurrentDomain.BaseDirectory,
-                        "../../Scripts")));
-        }
-
-        public string GetTestScriptPath(string filename)
-        {
-            return Path.Combine(GetScriptDirectory().FullName, filename);
-        }
-
-        public Config GetTestConfig()
-        {
-            return new Config()
-            {
-                ScriptDirectory = GetScriptDirectory()
-            };
-        }
-
         [TestMethod]
         public void ListCommands()
         {

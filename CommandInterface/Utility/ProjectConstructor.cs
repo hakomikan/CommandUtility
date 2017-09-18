@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,13 +14,18 @@ namespace CommandInterface.Utility
 
         }
 
-        public string ProjectPath { get; set; }
+        public FileInfo ProjectPath { get; set; }
 
-        public void CreateProject()
+        public void CreateProject(FileInfo projectPath, List<FileInfo> list)
         {
             // テンプレート内のXML を順番に加工していく
 
-            throw new NotImplementedException();
+            using (var writer = projectPath.CreateText())
+            {
+                writer.Write(ProjectTemplates.BasicTemplate);
+            }
+
+            ProjectPath = projectPath;
         }
     }
 }

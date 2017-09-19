@@ -9,17 +9,17 @@ using CommandInterface;
 using System.IO;
 using TestUtility;
 using System.Diagnostics;
+using CommandInterfaceTest;
 
 namespace CommandInterface.Utility.Tests
 {
     [TestClass()]
-    public class ProjectConstructorTests : CommandInterfaceTest.CommandInterfaceTestBase
+    public class ProjectConstructorTests : CommandInterfaceTestBase
     {
         [TestMethod()]
         public void ProjectConstructorTest()
         {
-            // TODO: テスト用の作業スペースを使うようにする
-            using (var holder = new TemporaryFileHolder("ProjectConstructor", afterDelete: false))
+            using (var holder = new TemporaryFileHolder(TestContext))
             {
                 var script1 = holder.MakeCopiedFile("./Scripts/TestScript.cs", CommandManager.GetScriptPath("test-script"));
                 var script2 = holder.MakeCopiedFile("./Scripts/TestScript2.cs", CommandManager.GetScriptPath("test-script2"));
@@ -28,8 +28,8 @@ namespace CommandInterface.Utility.Tests
 
                 var constructor = new ProjectConstructor();
                 constructor.CreateProject(
-                    projectPath,
-                    solutionPath,
+                    "TestProject",
+                    holder.WorkSpaceDirectory,
                     new List<FileInfo>() { script1, script2 });
 
                 Assert.IsTrue(File.Exists(constructor.ProjectPath.FullName));

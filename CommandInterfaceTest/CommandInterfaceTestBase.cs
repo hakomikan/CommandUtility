@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using CommandInterface;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CommandInterfaceTest
 {
     public class CommandInterfaceTestBase
     {
+        public TestContext TestContext { get; set; }
+
         public CommandInterfaceTestBase()
         {
             this.CommandManager = new CommandManager(GetTestConfig());

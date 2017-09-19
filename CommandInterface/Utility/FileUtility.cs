@@ -16,6 +16,7 @@ namespace CommandInterface.Utility
 
         public static void CreateFile(FileInfo fileInfo, string text)
         {
+            Directory.CreateDirectory(Path.GetDirectoryName(fileInfo.FullName));
             using (var writer = fileInfo.CreateText())
             {
                 writer.Write(text);

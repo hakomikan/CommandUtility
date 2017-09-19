@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestUtility
 {
@@ -11,6 +12,13 @@ namespace TestUtility
     {
         public DirectoryInfo WorkSpaceDirectory { get; private set; }
         public bool AfterDelete { get; private set; }
+
+        public TemporaryFileHolder(TestContext context, bool afterDelete = false)
+        {
+            AfterDelete = afterDelete;
+            WorkSpaceDirectory = new DirectoryInfo(Path.Combine(context.DeploymentDirectory, "WorkSpace"));
+            EnsureWorkSpace(WorkSpaceDirectory);
+        }
 
         public TemporaryFileHolder(string name = "", bool afterDelete = true)
         {

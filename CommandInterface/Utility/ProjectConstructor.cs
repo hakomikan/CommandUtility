@@ -43,15 +43,11 @@ namespace CommandInterface.Utility
             var assemblyInfoPath = MakeFileInfo(projectRoot, "./Properties/AssemblyInfo.cs");
             // テンプレート内のXML を順番に加工していく
 
-            using (var writer = projectPath.CreateText())
-            {
-                writer.Write(ProjectTemplates.BasicTemplate);
-            }
-
-            using (var writer = solutionPath.CreateText())
-            {
-                writer.Write(ProjectTemplates.BasicSolution);
-            }
+            CreateFile(solutionPath, ProjectTemplates.BasicSolution);
+            CreateFile(projectPath, ProjectTemplates.BasicTemplate);
+            CreateFile(appConfigPath, ProjectTemplates.BasicAppConfig);
+            CreateFile(packagesConfigPath, ProjectTemplates.BasicPackageConfig);
+            CreateFile(assemblyInfoPath, ProjectTemplates.BasicAssemblyInfo);
 
             ProjectPath = projectPath;
         }

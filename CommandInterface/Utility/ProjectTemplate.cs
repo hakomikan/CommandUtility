@@ -8,6 +8,23 @@ namespace CommandInterface.Utility
 {
     public static class ProjectTemplates
     {
+        public static string BasicMainSourceCode = @"using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CommandInterface
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+        }
+    }
+}
+";
+
         public static string BasicAssemblyInfo = @"using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -246,6 +263,7 @@ EndGlobal
     <Reference Include=""System.Xml"" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include=""Program.cs"" />
     <Compile Include=""Properties\AssemblyInfo.cs"" />
     <Compile Include=""Scripts\TestScript.cs"" />
     <Compile Include=""Scripts\TestScript2.cs"" />

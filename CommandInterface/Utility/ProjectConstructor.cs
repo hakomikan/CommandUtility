@@ -41,6 +41,7 @@ namespace CommandInterface.Utility
             var appConfigPath = MakeFileInfo(projectRoot, "App.config");
             var packagesConfigPath = MakeFileInfo(projectRoot, "packages.config");
             var assemblyInfoPath = MakeFileInfo(projectRoot, "./Properties/AssemblyInfo.cs");
+            var mainSourceCode = MakeFileInfo(projectRoot, "Program.cs");
             // テンプレート内のXML を順番に加工していく
 
             CreateFile(solutionPath, ProjectTemplates.BasicSolution);
@@ -48,6 +49,7 @@ namespace CommandInterface.Utility
             CreateFile(appConfigPath, ProjectTemplates.BasicAppConfig);
             CreateFile(packagesConfigPath, ProjectTemplates.BasicPackageConfig);
             CreateFile(assemblyInfoPath, ProjectTemplates.BasicAssemblyInfo);
+            CreateFile(mainSourceCode, ProjectTemplates.BasicMainSourceCode);
 
             ProjectPath = projectPath;
         }

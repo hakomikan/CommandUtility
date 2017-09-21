@@ -12,12 +12,22 @@ namespace TestUtility
     {
         public static void OpenDirectory(DirectoryInfo directory)
         {
-            if(!directory.Exists)
+            if(!Directory.Exists(directory.FullName))
             {
                 throw new DirectoryNotFoundException($"{directory.FullName} is not found.");
             }
 
             System.Diagnostics.Process.Start(directory.FullName);
+        }
+
+        public static void OpenFile(FileInfo fileInfo)
+        {
+            if (!File.Exists(fileInfo.FullName))
+            {
+                throw new FileNotFoundException($"{fileInfo.FullName} is not found.");
+            }
+
+            System.Diagnostics.Process.Start(fileInfo.FullName);
         }
     }
 }

@@ -23,8 +23,6 @@ namespace CommandInterface.Utility.Tests
             {
                 var script1 = holder.MakeCopiedFile("./Scripts/TestScript.cs", CommandManager.GetScriptPath("test-script"));
                 var script2 = holder.MakeCopiedFile("./Scripts/TestScript2.cs", CommandManager.GetScriptPath("test-script2"));
-                var projectPath = holder.MakeFilePath("./TestProject.csproj");
-                var solutionPath = holder.MakeFilePath("./TestSolution.sln");
 
                 var constructor = new ProjectConstructor();
                 constructor.CreateProject(
@@ -35,6 +33,7 @@ namespace CommandInterface.Utility.Tests
                 Assert.IsTrue(File.Exists(constructor.ProjectPath.FullName));
 
                 TestUtility.FileUtility.OpenDirectory(holder.WorkSpaceDirectory);
+                //TestUtility.FileUtility.OpenFile(constructor.SolutionPath);
             }
 
             throw new NotImplementedException();

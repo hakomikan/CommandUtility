@@ -16,6 +16,7 @@ namespace CommandInterface.Utility
         }
 
         public FileInfo ProjectPath { get; set; }
+        public FileInfo SolutionPath { get; set; }
 
         public void CreateProject(FileInfo projectPath, FileInfo solutionPath, List<FileInfo> list)
         {
@@ -52,6 +53,7 @@ namespace CommandInterface.Utility
             CreateFile(mainSourceCode, ProjectTemplates.BasicMainSourceCode);
 
             ProjectPath = projectPath;
+            SolutionPath = solutionPath;
         }
     }
 }

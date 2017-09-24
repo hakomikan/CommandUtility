@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static CommandInterface.Utility.FileUtility;
+using System.Xml.Linq;
 
 namespace CommandInterface.Utility
 {
@@ -35,6 +36,23 @@ namespace CommandInterface.Utility
             ProjectPath = projectPath;
         }
 
+        private class Utf8StringWriter : StringWriter
+        {
+            public override Encoding Encoding { get { return Encoding.UTF8; } }
+        }
+
+        private string LoadAndWriteXml(string xmlText)
+        {
+            using (var reader = new StringReader(xmlText))
+            using (var writer = new Utf8StringWriter())
+            {
+                var xdoc = XDocument.Load(reader);
+                xdoc.Declaration = new XDeclaration("1.0", "utf-8", null);
+                xdoc.Save(writer);
+                return writer.ToString();
+            }
+        }
+
         public void CreateProject(string baseName, DirectoryInfo projectRoot, List<FileInfo> list)
         {
             var solutionPath = MakeFileInfo(projectRoot, baseName + ".sln");
@@ -46,9 +64,9 @@ namespace CommandInterface.Utility
             // テンプレート内のXML を順番に加工していく
 
             CreateFile(solutionPath, ProjectTemplates.BasicSolution);
-            CreateFile(projectPath, ProjectTemplates.BasicTemplate);
-            CreateFile(appConfigPath, ProjectTemplates.BasicAppConfig);
-            CreateFile(packagesConfigPath, ProjectTemplates.BasicPackageConfig);
+            CreateFile(projectPath, LoadAndWriteXml(ProjectTemplates.BasicTemplate));
+            CreateFile(appConfigPath, LoadAndWriteXml(ProjectTemplates.BasicAppConfig));
+            CreateFile(packagesConfigPath, LoadAndWriteXml(ProjectTemplates.BasicPackageConfig));
             CreateFile(assemblyInfoPath, ProjectTemplates.BasicAssemblyInfo);
             CreateFile(mainSourceCode, ProjectTemplates.BasicMainSourceCode);
 

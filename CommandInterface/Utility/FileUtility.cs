@@ -22,5 +22,16 @@ namespace CommandInterface.Utility
                 writer.Write(text);
             }
         }
+
+        public static string GetRelativePath(string targetPath, string basePath)
+        {
+            Uri pathUri = new Uri(targetPath);
+            if (!basePath.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            {
+                basePath += Path.DirectorySeparatorChar;
+            }
+            Uri baseUri = new Uri(basePath);
+            return Uri.UnescapeDataString(baseUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+        }
     }
 }

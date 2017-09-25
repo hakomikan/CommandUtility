@@ -268,8 +268,6 @@ EndGlobal
   <ItemGroup>
     <Compile Include=""Program.cs"" />
     <Compile Include=""Properties\AssemblyInfo.cs"" />
-    <Compile Include=""Scripts\TestScript.cs"" />
-    <Compile Include=""Scripts\TestScript2.cs"" />
   </ItemGroup>
   <ItemGroup>
     <None Include=""App.config"" />

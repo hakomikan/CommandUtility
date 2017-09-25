@@ -41,19 +41,25 @@ namespace CommandInterface.Utility
             public override Encoding Encoding { get { return Encoding.UTF8; } }
         }
 
-        private string LoadAndWriteXml(string xmlText)
+        private string LoadAndWriteXml(string xmlText, Action<XDocument> processor = null)
         {
             using (var reader = new StringReader(xmlText))
             using (var writer = new Utf8StringWriter())
             {
                 var xdoc = XDocument.Load(reader);
                 xdoc.Declaration = new XDeclaration("1.0", "utf-8", null);
+
+                if (processor != null)
+                {
+                    processor(xdoc);
+                }
+
                 xdoc.Save(writer);
                 return writer.ToString();
             }
         }
 
-        public void CreateProject(string baseName, DirectoryInfo projectRoot, List<FileInfo> list)
+        public void CreateProject(string baseName, DirectoryInfo projectRoot, List<FileInfo> fileList)
         {
             var solutionPath = MakeFileInfo(projectRoot, baseName + ".sln");
             var projectPath = MakeFileInfo(projectRoot, baseName + ".csproj");
@@ -61,10 +67,17 @@ namespace CommandInterface.Utility
             var packagesConfigPath = MakeFileInfo(projectRoot, "packages.config");
             var assemblyInfoPath = MakeFileInfo(projectRoot, "./Properties/AssemblyInfo.cs");
             var mainSourceCode = MakeFileInfo(projectRoot, "Program.cs");
-            // テンプレート内のXML を順番に加工していく
 
             CreateFile(solutionPath, ProjectTemplates.BasicSolution);
-            CreateFile(projectPath, LoadAndWriteXml(ProjectTemplates.BasicTemplate));
+            CreateFile(projectPath, LoadAndWriteXml(ProjectTemplates.BasicTemplate, xdoc => {
+                var rootNamespace = xdoc.Root.Name.Namespace;
+                foreach (var srcFile in fileList)
+                {
+                    xdoc.Descendants().Where(e => e.Name.LocalName == "Compile").Last().AddAfterSelf(
+                        new XElement(rootNamespace + "Compile",
+                            new XAttribute("Include", GetRelativePath(srcFile.FullName, projectRoot.FullName))));
+                }
+            }));
             CreateFile(appConfigPath, LoadAndWriteXml(ProjectTemplates.BasicAppConfig));
             CreateFile(packagesConfigPath, LoadAndWriteXml(ProjectTemplates.BasicPackageConfig));
             CreateFile(assemblyInfoPath, ProjectTemplates.BasicAssemblyInfo);

@@ -165,7 +165,7 @@ EndGlobal
   <PropertyGroup>
     <Configuration Condition="" '$(Configuration)' == '' "">Debug</Configuration>
     <Platform Condition="" '$(Platform)' == '' "">AnyCPU</Platform>
-    <ProjectGuid>{AE0D18B9-6DEF-479C-B526-C2F09397EE1C}</ProjectGuid>
+    <ProjectGuid></ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CommandInterface</RootNamespace>

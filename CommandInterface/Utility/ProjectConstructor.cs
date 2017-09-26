@@ -67,6 +67,7 @@ namespace CommandInterface.Utility
             var packagesConfigPath = MakeFileInfo(projectRoot, "packages.config");
             var assemblyInfoPath = MakeFileInfo(projectRoot, "./Properties/AssemblyInfo.cs");
             var mainSourceCode = MakeFileInfo(projectRoot, "Program.cs");
+            var projectGuid = Guid.NewGuid();
 
             CreateFile(solutionPath, ProjectTemplates.BasicSolution);
             CreateFile(projectPath, LoadAndWriteXml(ProjectTemplates.BasicTemplate, xdoc => {
@@ -76,6 +77,8 @@ namespace CommandInterface.Utility
                     xdoc.Descendants().Where(e => e.Name.LocalName == "Compile").Last().AddAfterSelf(
                         new XElement(rootNamespace + "Compile",
                             new XAttribute("Include", GetRelativePath(srcFile.FullName, projectRoot.FullName))));
+                    var guidElement = xdoc.Descendants().Where(e => e.Name.LocalName == "ProjectGuid").First();
+                    guidElement.Add(new XText($"{{{projectGuid.ToString().ToUpper()}}}"));
                 }
             }));
             CreateFile(appConfigPath, LoadAndWriteXml(ProjectTemplates.BasicAppConfig));

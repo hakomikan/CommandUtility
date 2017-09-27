@@ -29,6 +29,18 @@ namespace CommandInterfaceTest
                         "../../Scripts")));
         }
 
+        public FileInfo CommandInterfaceProject
+        {
+            get
+            {
+                return new FileInfo(
+                    Path.GetFullPath(
+                        Path.Combine(
+                            AppDomain.CurrentDomain.BaseDirectory,
+                            "../../../CommandInterface/CommandInterface.csproj")));
+            }
+        }
+
         public string GetTestScriptPath(string filename)
         {
             return Path.Combine(GetScriptDirectory().FullName, filename);

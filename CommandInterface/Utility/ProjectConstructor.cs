@@ -18,6 +18,7 @@ namespace CommandInterface.Utility
 
         public FileInfo ProjectPath { get; set; }
         public FileInfo SolutionPath { get; set; }
+        public FileInfo CommandInterfaceProject { get; set; }
 
         public void CreateProject(FileInfo projectPath, FileInfo solutionPath, List<FileInfo> list)
         {
@@ -69,7 +70,11 @@ namespace CommandInterface.Utility
             var mainSourceCode = MakeFileInfo(projectRoot, "Program.cs");
             var projectGuid = Guid.NewGuid();
 
-            CreateFile(solutionPath, ProjectTemplates.BasicSolution);
+            CreateFile(solutionPath, ProjectTemplates.BasicSolution.Replace(
+                "#<PlaceHolder>#",
+                $@"Project(""{{{projectGuid.ToString().ToUpper()}}}"") = ""CommandInterface"", ""{GetRelativePath(CommandInterfaceProject.FullName, projectRoot.FullName)}"", ""{{{Guid.NewGuid().ToString().ToUpper()}}}""
+EndProject"
+                ));
             CreateFile(projectPath, LoadAndWriteXml(ProjectTemplates.BasicTemplate, xdoc => {
                 var rootNamespace = xdoc.Root.Name.Namespace;
                 foreach (var srcFile in fileList)

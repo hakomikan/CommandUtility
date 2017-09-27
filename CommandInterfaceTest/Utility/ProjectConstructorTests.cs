@@ -24,7 +24,11 @@ namespace CommandInterface.Utility.Tests
                 var script1 = new FileInfo(CommandManager.GetScriptPath("test-script"));
                 var script2 = new FileInfo(CommandManager.GetScriptPath("test-script2"));
 
-                var constructor = new ProjectConstructor();
+                var constructor = new ProjectConstructor()
+                {
+                    CommandInterfaceProject = this.CommandInterfaceProject
+                };
+
                 constructor.CreateProject(
                     "TestProject",
                     holder.WorkSpaceDirectory,

@@ -142,6 +142,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project(""{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"") = ""CommandInterface"", ""TestProject.csproj"", ""{AE0D18B9-6DEF-479C-B526-C2F09397EE1C}""
 EndProject
+#<PlaceHolder>#
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

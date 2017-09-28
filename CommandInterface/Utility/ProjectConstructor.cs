@@ -69,10 +69,11 @@ namespace CommandInterface.Utility
             var assemblyInfoPath = MakeFileInfo(projectRoot, "./Properties/AssemblyInfo.cs");
             var mainSourceCode = MakeFileInfo(projectRoot, "Program.cs");
             var projectGuid = Guid.NewGuid();
+            var projectRelativePath = GetRelativePath(CommandInterfaceProject.FullName, projectRoot.FullName);
 
             CreateFile(solutionPath, ProjectTemplates.BasicSolution.Replace(
                 "#<PlaceHolder>#",
-                $@"Project(""{{{projectGuid.ToString().ToUpper()}}}"") = ""CommandInterface"", ""{GetRelativePath(CommandInterfaceProject.FullName, projectRoot.FullName)}"", ""{{{Guid.NewGuid().ToString().ToUpper()}}}""
+                $@"Project(""{{{projectGuid.ToString().ToUpper()}}}"") = ""CommandInterface"", ""{projectRelativePath}"", ""{{{Guid.NewGuid().ToString().ToUpper()}}}""
 EndProject"
                 ));
             CreateFile(projectPath, LoadAndWriteXml(ProjectTemplates.BasicTemplate, xdoc => {
@@ -85,6 +86,15 @@ EndProject"
                     var guidElement = xdoc.Descendants().Where(e => e.Name.LocalName == "ProjectGuid").First();
                     guidElement.Add(new XText($"{{{projectGuid.ToString().ToUpper()}}}"));
                 }
+
+                var configElement = xdoc.Descendants().Where(e => e.Name.LocalName == "ItemGroup" && e.Descendants().Where(f => f.Name.LocalName == "None").Count() != 0).First();
+                configElement.AddAfterSelf(
+                    new XElement(rootNamespace + "ItemGroup",
+                        new XElement(rootNamespace + "ProjectReference",
+                            new XAttribute("Include", projectRelativePath),
+                            new XElement(rootNamespace + "Project", new XText($"{{{projectGuid.ToString().ToUpper()}}}")),
+                            new XElement(rootNamespace + "Name", new XText("CommandInterface"))
+                    )));
             }));
             CreateFile(appConfigPath, LoadAndWriteXml(ProjectTemplates.BasicAppConfig));
             CreateFile(packagesConfigPath, LoadAndWriteXml(ProjectTemplates.BasicPackageConfig));

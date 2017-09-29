@@ -60,6 +60,16 @@ namespace CommandInterface.Utility
             }
         }
 
+        public Guid GetProjectGuid(FileInfo projectFile)
+        {
+            using (var reader = projectFile.OpenText())
+            {
+                var xdoc = XDocument.Load(reader);
+                var guidString = xdoc.Descendants().Where(e => e.Name.LocalName == "ProjectGuid").First().Value;
+                return Guid.Parse(guidString);
+            }
+        }
+
         public void CreateProject(string baseName, DirectoryInfo projectRoot, List<FileInfo> fileList)
         {
             var solutionPath = MakeFileInfo(projectRoot, baseName + ".sln");
@@ -70,10 +80,11 @@ namespace CommandInterface.Utility
             var mainSourceCode = MakeFileInfo(projectRoot, "Program.cs");
             var projectGuid = Guid.NewGuid();
             var projectRelativePath = GetRelativePath(CommandInterfaceProject.FullName, projectRoot.FullName);
+            var commandInterfaceProjectGuid = GetProjectGuid(CommandInterfaceProject);
 
             CreateFile(solutionPath, ProjectTemplates.BasicSolution.Replace(
                 "#<PlaceHolder>#",
-                $@"Project(""{{{projectGuid.ToString().ToUpper()}}}"") = ""CommandInterface"", ""{projectRelativePath}"", ""{{{Guid.NewGuid().ToString().ToUpper()}}}""
+                $@"Project(""{{{commandInterfaceProjectGuid.ToString().ToUpper()}}}"") = ""CommandInterface"", ""{projectRelativePath}"", ""{{{Guid.NewGuid().ToString().ToUpper()}}}""
 EndProject"
                 ));
             CreateFile(projectPath, LoadAndWriteXml(ProjectTemplates.BasicTemplate, xdoc => {
@@ -92,7 +103,7 @@ EndProject"
                     new XElement(rootNamespace + "ItemGroup",
                         new XElement(rootNamespace + "ProjectReference",
                             new XAttribute("Include", projectRelativePath),
-                            new XElement(rootNamespace + "Project", new XText($"{{{projectGuid.ToString().ToUpper()}}}")),
+                            new XElement(rootNamespace + "Project", new XText($"{{{commandInterfaceProjectGuid.ToString().ToUpper()}}}")),
                             new XElement(rootNamespace + "Name", new XText("CommandInterface"))
                     )));
             }));

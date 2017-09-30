@@ -30,4 +30,13 @@ namespace CommandInterface.Utility
             }
         }
     }
+
+    public static class GuidExtensions
+    {
+        public static string BraceExpression(this Guid guid)
+        {
+            return $"{{{guid.ToString().ToUpper()}}}";
+        }
+    }
+
 }

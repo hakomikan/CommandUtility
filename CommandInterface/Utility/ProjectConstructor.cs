@@ -31,6 +31,7 @@ namespace CommandInterface.Utility
             var mainSourceCode = MakeFileInfo(projectRoot, "Program.cs");
             var projectGuid = Guid.NewGuid();
             var projectRelativePath = GetRelativePath(CommandInterfaceProject.FullName, projectRoot.FullName);
+            var commandInterfaceProjectInfo = new ProjectInfo(CommandInterfaceProject);
             var commandInterfaceProjectGuid = ProjectInfo.ReadProjectGuid(CommandInterfaceProject);
 
             CreateFile(projectPath, LoadAndWriteXml(ProjectTemplates.BasicTemplate, xdoc => {
@@ -43,14 +44,14 @@ namespace CommandInterface.Utility
                 }
 
                 var guidElement = xdoc.Descendants().Where(e => e.Name.LocalName == "ProjectGuid").First();
-                guidElement.Add(new XText($"{{{projectGuid.ToString().ToUpper()}}}"));
+                guidElement.Add(new XText($"{{{projectGuid.BraceExpression()}}}"));
 
                 var configElement = xdoc.Descendants().Where(e => e.Name.LocalName == "ItemGroup" && e.Descendants().Where(f => f.Name.LocalName == "None").Count() != 0).First();
                 configElement.AddAfterSelf(
                     new XElement(rootNamespace + "ItemGroup",
                         new XElement(rootNamespace + "ProjectReference",
                             new XAttribute("Include", projectRelativePath),
-                            new XElement(rootNamespace + "Project", new XText($"{{{commandInterfaceProjectGuid.ToString().ToUpper()}}}")),
+                            new XElement(rootNamespace + "Project", new XText(commandInterfaceProjectInfo.GuidText)),
                             new XElement(rootNamespace + "Name", new XText("CommandInterface"))
                     )));
             }));

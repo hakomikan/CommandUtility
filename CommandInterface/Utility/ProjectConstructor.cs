@@ -21,16 +21,6 @@ namespace CommandInterface.Utility
         public FileInfo SolutionPath { get; set; }
         public FileInfo CommandInterfaceProject { get; set; }
 
-        public Guid GetProjectGuid(FileInfo projectFile)
-        {
-            using (var reader = projectFile.OpenText())
-            {
-                var xdoc = XDocument.Load(reader);
-                var guidString = xdoc.Descendants().Where(e => e.Name.LocalName == "ProjectGuid").First().Value;
-                return Guid.Parse(guidString);
-            }
-        }
-
         public void CreateProject(string baseName, DirectoryInfo projectRoot, List<FileInfo> fileList)
         {
             var solutionPath = MakeFileInfo(projectRoot, baseName + ".sln");
@@ -41,7 +31,7 @@ namespace CommandInterface.Utility
             var mainSourceCode = MakeFileInfo(projectRoot, "Program.cs");
             var projectGuid = Guid.NewGuid();
             var projectRelativePath = GetRelativePath(CommandInterfaceProject.FullName, projectRoot.FullName);
-            var commandInterfaceProjectGuid = GetProjectGuid(CommandInterfaceProject);
+            var commandInterfaceProjectGuid = ProjectInfo.ReadProjectGuid(CommandInterfaceProject);
 
             CreateFile(projectPath, LoadAndWriteXml(ProjectTemplates.BasicTemplate, xdoc => {
                 var rootNamespace = xdoc.Root.Name.Namespace;

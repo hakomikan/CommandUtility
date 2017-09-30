@@ -166,12 +166,16 @@
     <Compile Include="CommandManager.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Utility\FileUtility.cs" />
+    <Compile Include="Utility\ProjectInfo.cs" />
     <Compile Include="Utility\ProjectTemplate.cs" />
     <Compile Include="Utility\NameConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\CSharpAssembly.cs" />
     <Compile Include="Utility\ProjectConstructor.cs" />
+    <Compile Include="Utility\SolutionConstructor.cs" />
+    <Compile Include="Utility\SolutionEntry.cs" />
+    <Compile Include="Utility\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -135,31 +135,6 @@ using System.Runtime.InteropServices;
 </configuration>
 ";
 
-        public static string BasicSolution = @"
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
-MinimumVisualStudioVersion = 10.0.40219.1
-Project(""{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"") = ""CommandInterface"", ""TestProject.csproj"", ""{552ABC17-C41C-4325-B78D-A052BCDF2BC8}""
-EndProject
-#<PlaceHolder>#
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{552ABC17-C41C-4325-B78D-A052BCDF2BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{552ABC17-C41C-4325-B78D-A052BCDF2BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{552ABC17-C41C-4325-B78D-A052BCDF2BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{552ABC17-C41C-4325-B78D-A052BCDF2BC8}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-";
-
         public static string BasicTemplate = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <Project ToolsVersion=""14.0"" DefaultTargets=""Build"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">
   <Import Project=""$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"" Condition=""Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"" />

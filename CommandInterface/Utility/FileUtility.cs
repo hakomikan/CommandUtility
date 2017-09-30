@@ -23,6 +23,16 @@ namespace CommandInterface.Utility
             }
         }
 
+        public static string GetRelativePath(FileSystemInfo targetPath, FileInfo basePath)
+        {
+            return GetRelativePath(targetPath.FullName, Path.GetDirectoryName(basePath.FullName));
+        }
+
+        public static string GetRelativePath(FileSystemInfo targetPath, DirectoryInfo baseDirectory)
+        {
+            return GetRelativePath(targetPath.FullName, baseDirectory.FullName);
+        }
+
         public static string GetRelativePath(string targetPath, string basePath)
         {
             Uri pathUri = new Uri(targetPath);

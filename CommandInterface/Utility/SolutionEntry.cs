@@ -26,9 +26,9 @@ EndProject";
         public string MakeProjectConfigurationText()
         {
             return $@"{ProjectInfo.GuidText}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ProjectInfo.GuidText}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ProjectInfo.GuidText}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ProjectInfo.GuidText}.Release|Any CPU.Build.0 = Release|Any CPU";
+{ProjectInfo.GuidText}.Debug|Any CPU.Build.0 = Debug|Any CPU
+{ProjectInfo.GuidText}.Release|Any CPU.ActiveCfg = Release|Any CPU
+{ProjectInfo.GuidText}.Release|Any CPU.Build.0 = Release|Any CPU";
         }
     }
 }

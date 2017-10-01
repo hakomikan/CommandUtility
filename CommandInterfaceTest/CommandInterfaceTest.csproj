@@ -182,6 +182,7 @@
     <Compile Include="SpikeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\ProjectConstructorTests.cs" />
+    <Compile Include="Utility\StringExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

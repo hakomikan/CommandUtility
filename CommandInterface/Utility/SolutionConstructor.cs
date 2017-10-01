@@ -26,8 +26,8 @@ namespace CommandInterface.Utility
             using (var writer = SolutionPath.CreateText())
             {
                 var text = Template
-                    .Replace("#<ProjectDefinitions>#", MakeProjectDefinitionText())
-                    .Replace("#<ProjectConfigurations>#", MakeProjectConfigurationText());
+                    .ReplaceKeepingIndent("#<ProjectDefinitions>#", MakeProjectDefinitionText())
+                    .ReplaceKeepingIndent("#<ProjectConfigurations>#", MakeProjectConfigurationText());
                 writer.Write(text);
             }
 
@@ -60,7 +60,7 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-        #<ProjectConfigurations>#
+		#<ProjectConfigurations>#
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

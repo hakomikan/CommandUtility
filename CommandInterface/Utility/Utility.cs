@@ -2,6 +2,9 @@
 using System.Text;
 using System.IO;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
+using System.Collections;
+using System.Linq;
 
 namespace CommandInterface.Utility
 {
@@ -36,6 +39,20 @@ namespace CommandInterface.Utility
         public static string BraceExpression(this Guid guid)
         {
             return $"{{{guid.ToString().ToUpper()}}}";
+        }
+    }
+
+    public static class StringExtensions
+    {
+        public static string ReplaceKeepingIndent(this String source, string target, string newString)
+        {
+            return Regex.Replace(source, $"^(.*)({target})",
+                match => {
+                    var headString = match.Groups[1].Value;
+                    var indent = Regex.Replace(headString, "[^\\s]", " ");
+                    var newStringWithIndent = newString.Replace("\n", $"\n{indent}");
+                    return headString + newStringWithIndent;
+                }, RegexOptions.Multiline);
         }
     }
 

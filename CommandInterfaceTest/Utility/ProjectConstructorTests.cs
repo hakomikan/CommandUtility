@@ -38,9 +38,8 @@ namespace CommandInterface.Utility.Tests
 
                 TestUtility.FileUtility.OpenDirectory(holder.WorkSpaceDirectory);
                 //TestUtility.FileUtility.OpenFile(constructor.SolutionPath);
+                Process.Start("devenv.exe", $"/Command \"Edit.Goto 9\" \"{script1.FullName}\"");
             }
-
-            throw new NotImplementedException();
         }
     }
 }

@@ -5,21 +5,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommandInterface;
-using System.IO;
 using TestUtility;
-using System.Diagnostics;
-using CommandInterfaceTest;
+using System.IO;
 
 namespace CommandInterface.Utility.Tests
 {
     [TestClass()]
-    public class ProjectConstructorTests : CommandInterfaceTestBase
+    public class VisualStudioControllerTests : CommandInterfaceTest.CommandInterfaceTestBase
     {
         [TestMethod()]
-        public void ProjectConstructorTest()
+        public void VisualStudioControllerTest()
         {
-            using (var holder = new TemporaryFileHolder(TestContext, afterDelete: false))
+            using (var holder = new TemporaryFileHolder(TestContext))
             {
                 var script1 = new FileInfo(CommandManager.GetScriptPath("test-script"));
                 var script2 = new FileInfo(CommandManager.GetScriptPath("test-script2"));
@@ -36,11 +33,14 @@ namespace CommandInterface.Utility.Tests
 
                 Assert.IsTrue(File.Exists(constructor.ProjectPath.FullName));
 
-                //TestUtility.FileUtility.OpenDirectory(holder.WorkSpaceDirectory);
-                //TestUtility.FileUtility.OpenFile(constructor.SolutionPath);
-                //Process.Start("devenv.exe", $"/Command \"Edit.Goto 9\" \"{script1.FullName}\"");
+                TestUtility.FileUtility.OpenDirectory(holder.WorkSpaceDirectory);
+
+                var vsController = new VisualStudioController();
+                vsController.OpenSolution(constructor.SolutionPath);
                 Assert.Fail();
+
             }
+
         }
     }
 }

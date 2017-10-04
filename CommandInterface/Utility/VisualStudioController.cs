@@ -10,18 +10,24 @@ namespace CommandInterface.Utility
 {
     public class VisualStudioController
     {
+        private EnvDTE.DTE DTE;
+
         public VisualStudioController()
         {
-
+            DTE = System.Activator.CreateInstance(
+                Type.GetTypeFromProgID("VisualStudio.DTE.14.0")) as EnvDTE.DTE;
         }
 
         public void OpenSolution(FileInfo solutionFile)
         {
-            var dte = System.Activator.CreateInstance(
-                Type.GetTypeFromProgID("VisualStudio.DTE.14.0")) as EnvDTE.DTE;
-            var solution = dte.Solution;
+            var solution = DTE.Solution;
             solution.Open(solutionFile.FullName);
-            dte.MainWindow.Activate();
+            DTE.MainWindow.Activate();
+        }
+
+        public void OpenSourceFile(FileInfo fileInfo)
+        {
+            DTE.ItemOperations.OpenFile(fileInfo.FullName, EnvDTE.Constants.vsViewKindCode);
         }
     }
 }

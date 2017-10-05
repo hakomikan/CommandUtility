@@ -35,5 +35,36 @@ namespace CommandInterface.Utility
             var selection = DTE.ActiveDocument.Selection as TextSelection;
             selection.GotoLine(line);
         }
+
+        public void GoToPoint(Document document, TextPoint textPoint)
+        {
+            var selection = document.Selection as TextSelection;
+            selection.MoveToPoint(textPoint);
+        }
+
+        public void GoToMethod(string name)
+        {
+            var document = DTE.ActiveDocument;
+            foreach (CodeElement codeElement in EnumerateCodeElements(document.ProjectItem.FileCodeModel.CodeElements))
+            {
+                if (codeElement.Name == name)
+                {
+                    GoToPoint(document, codeElement.StartPoint);
+                }
+            }
+        }
+
+        public IEnumerable<CodeElement> EnumerateCodeElements(CodeElements codeElements)
+        {
+            foreach (CodeElement codeElement in codeElements)
+            {
+                yield return codeElement;
+
+                foreach (CodeElement subCodeElement in EnumerateCodeElements(codeElement.Children))
+                {
+                    yield return subCodeElement;
+                }
+            }
+        }
     }
 }

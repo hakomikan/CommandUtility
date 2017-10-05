@@ -29,5 +29,11 @@ namespace CommandInterface.Utility
         {
             DTE.ItemOperations.OpenFile(fileInfo.FullName, EnvDTE.Constants.vsViewKindCode);
         }
+
+        public void GoToLine(int line)
+        {
+            var selection = DTE.ActiveDocument.Selection as TextSelection;
+            selection.GotoLine(line);
+        }
     }
 }

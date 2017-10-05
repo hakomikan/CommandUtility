@@ -38,6 +38,7 @@ namespace CommandInterface.Utility.Tests
                 var vsController = new VisualStudioController();
                 vsController.OpenSolution(constructor.SolutionPath);
                 vsController.OpenSourceFile(script1);
+                vsController.GoToLine(7);
                 Assert.Fail();
 
             }

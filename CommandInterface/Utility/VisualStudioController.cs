@@ -54,6 +54,14 @@ namespace CommandInterface.Utility
             }
         }
 
+        public IEnumerable<CodeElement> EnumerateCodeElements()
+        {
+            foreach (var e in EnumerateCodeElements(DTE.ActiveDocument.ProjectItem.FileCodeModel.CodeElements))
+            {
+                yield return e;
+            }
+        }
+
         public IEnumerable<CodeElement> EnumerateCodeElements(CodeElements codeElements)
         {
             foreach (CodeElement codeElement in codeElements)

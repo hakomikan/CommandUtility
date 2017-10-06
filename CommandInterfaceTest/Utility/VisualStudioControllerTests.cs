@@ -39,6 +39,14 @@ namespace CommandInterface.Utility.Tests
                 vsController.OpenSolution(constructor.SolutionPath);
                 vsController.OpenSourceFile(script1);
                 vsController.GoToMethod("Main");
+
+                foreach (var e in vsController.EnumerateCodeElements())
+                {
+                    Console.WriteLine($"Name: {e.Name}");
+                    Console.WriteLine($"Kind: {e.Kind.ToString()}");
+                    Console.WriteLine($"FullName: {e.FullName}");
+                }
+
                 Assert.Fail();
 
             }

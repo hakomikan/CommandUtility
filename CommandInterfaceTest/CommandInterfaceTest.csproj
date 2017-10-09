@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.2.3.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
@@ -178,6 +178,7 @@
   <ItemGroup>
     <Compile Include="CommandInterfaceTestBase.cs" />
     <Compile Include="CommandManagerTest.cs" />
+    <Compile Include="ConfigLoaderTests.cs" />
     <Compile Include="Configs\TestConfig.cs" />
     <Compile Include="NameConverterTest.cs" />
     <Compile Include="Scripts\TestScript.cs" />

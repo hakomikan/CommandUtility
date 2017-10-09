@@ -167,8 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandManager.cs" />
+    <Compile Include="ConfigLoader.cs" />
     <Compile Include="Exceptions.cs" />
-    <Compile Include="ScriptConfig.cs" />
+    <Compile Include="CommandSetConfig.cs" />
     <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Utility\ProjectInfo.cs" />
     <Compile Include="Utility\ProjectTemplate.cs" />

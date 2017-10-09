@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CommandInterface.Configs.Test
+﻿namespace CommandInterface.Configs.Test
 {
-    public class Config : ScriptConfig
+    class TestCommandSetConfig : CommandSetConfig
     {
-        public Config()
+        public TestCommandSetConfig()
         {
-            SolutionPath = "testSolutionPath";
-            ScriptPath = "testScriptPath";
-            ProjectPath = "testProjectPath";
+            this.Name = "TestCommandSet";
+            this.ScriptDirectory = "TestDirectory";
+            this.ProjectDirecotry = "TestProjectDirectory";
         }
     }
 }

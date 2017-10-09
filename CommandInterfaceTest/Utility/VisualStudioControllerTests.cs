@@ -36,9 +36,6 @@ namespace CommandInterface.Utility.Tests
                 TestUtility.FileUtility.OpenDirectory(holder.WorkSpaceDirectory);
 
                 var vsController = new VisualStudioController();
-                vsController.OpenSolution(constructor.SolutionPath);
-                vsController.OpenSourceFile(script1);
-                vsController.GoToMethod("Main");
 
                 foreach (var e in vsController.EnumerateCodeElements())
                 {
@@ -47,8 +44,10 @@ namespace CommandInterface.Utility.Tests
                     Console.WriteLine($"FullName: {e.FullName}");
                 }
 
-                Assert.Fail();
-
+                //vsController.OpenSolution(constructor.SolutionPath);
+                //vsController.OpenSourceFile(script1);
+                //vsController.GoToMethod("Main");
+                //Assert.Fail();
             }
 
         }

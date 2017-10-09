@@ -12,8 +12,6 @@ namespace CommandInterface.Tests
     public class ConfigLoaderTests
     {
         public static string TestConfig = @"
-using CommandInterface;
-
 namespace CommandInterface.Tests
 {
     class TestCommandSetConfig : CommandSetConfig

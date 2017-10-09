@@ -14,8 +14,20 @@ namespace CommandInterface
 
         }
 
-        public ConfigType Load<ConfigType>(string configText)
+        public ConfigType Load<ConfigType>(string configText) where ConfigType: class, new()
         {
+            var assembly = Utility.CSharpAssembly.Compile(configText);
+
+            foreach (var type in assembly.DefinedTypes)
+            {
+                if(type.AsType() == typeof(ConfigType) || type.IsSubclassOf(typeof(ConfigType)))
+                {
+                    var constructor = type.GetConstructor(new Type[] { });
+
+                    return constructor.Invoke(new object[] { }) as ConfigType;
+                }
+            }
+
             return default(ConfigType);
         }
 

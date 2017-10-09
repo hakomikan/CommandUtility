@@ -39,14 +39,8 @@ namespace CommandInterface.Utility
 
     public static class CSharpAssembly
     {
-        public static ReturnType ExecuteScriptFromFile<ReturnType>(FileInfo fileInfo)
+        public static Assembly Compile(string text)
         {
-            if(!fileInfo.Exists)
-            {
-                throw new ScriptNotFoundException();
-            }
-
-            var text = File.ReadAllText(fileInfo.FullName);
             var syntaxTree = CSharpSyntaxTree.ParseText(text);
             CSharpCompilation compilation = CSharpCompilation.Create(
                 "ScriptAssembly",
@@ -63,19 +57,32 @@ namespace CommandInterface.Utility
                 var emitResult = compilation.Emit(dll, pdb);
                 if (emitResult.Success)
                 {
-                    var assembly = Assembly.Load(dll.ToArray(), pdb.ToArray());
-                    var types = assembly.GetTypes();
-                    var targetClass = types[0];
-                    var targetMethods = targetClass.GetMethods();
-                    var methodBase = targetClass.GetMethod("Main", BindingFlags.Static | BindingFlags.Public);
-
-                    return (ReturnType)methodBase.Invoke(null, null);
+                    return Assembly.Load(dll.ToArray(), pdb.ToArray());
                 }
                 else
                 {
                     throw new ScriptExecutionException("None", emitResult);
                 }
             }
+        }
+
+        public static ReturnType ExecuteScriptFromFile<ReturnType>(FileInfo fileInfo)
+        {
+            if(!fileInfo.Exists)
+            {
+                throw new ScriptNotFoundException();
+            }
+
+            var text = File.ReadAllText(fileInfo.FullName);
+
+            var assembly = Compile(text);
+
+            var types = assembly.GetTypes();
+            var targetClass = types[0];
+            var targetMethods = targetClass.GetMethods();
+            var methodBase = targetClass.GetMethod("Main", BindingFlags.Static | BindingFlags.Public);
+
+            return (ReturnType)methodBase.Invoke(null, null);
         }
     }
 }

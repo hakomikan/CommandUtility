@@ -35,5 +35,10 @@ namespace CommandInterface.Tests
             Assert.AreEqual("TestDirectory", config.ScriptDirectory);
             Assert.AreEqual("TestProjectDirectory", config.ProjectDirecotry);
         }
+
+        [TestMethod]
+        public void RootSearcherTest()
+        {
+        }
     }
 }

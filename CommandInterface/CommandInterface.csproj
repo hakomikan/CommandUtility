@@ -170,6 +170,7 @@
     <Compile Include="ConfigLoader.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="CommandSetConfig.cs" />
+    <Compile Include="RootSearcher.cs" />
     <Compile Include="Utility\FileUtility.cs" />
     <Compile Include="Utility\ProjectInfo.cs" />
     <Compile Include="Utility\ProjectTemplate.cs" />

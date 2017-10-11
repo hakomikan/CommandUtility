@@ -20,6 +20,13 @@ namespace TestUtility
             EnsureWorkSpace(WorkSpaceDirectory);
         }
 
+        public DirectoryInfo CreateDirectory(string name)
+        {
+            var directoryInfo = WorkSpaceDirectory.CombineAsDirectory(name);
+            directoryInfo.Create();
+            return directoryInfo;
+        }
+
         public TemporaryFileHolder(string name = "", bool afterDelete = true)
         {
             AfterDelete = afterDelete;

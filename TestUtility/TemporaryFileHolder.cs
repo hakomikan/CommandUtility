@@ -20,6 +20,16 @@ namespace TestUtility
             EnsureWorkSpace(WorkSpaceDirectory);
         }
 
+        public FileInfo CreateFile(string path, string content)
+        {
+            var fileInfo = WorkSpaceDirectory.CombineAsFile(path);
+            using (var writer = fileInfo.CreateText())
+            {
+                writer.Write(content);
+            }
+            return fileInfo;
+        }
+
         public DirectoryInfo CreateDirectory(string name)
         {
             var directoryInfo = WorkSpaceDirectory.CombineAsDirectory(name);

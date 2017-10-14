@@ -181,6 +181,7 @@
     <Compile Include="ConfigLoaderTests.cs" />
     <Compile Include="Configs\TestConfig.cs" />
     <Compile Include="NameConverterTest.cs" />
+    <Compile Include="RootSearcherTests.cs" />
     <Compile Include="Scripts\TestScript.cs" />
     <Compile Include="Scripts\TestScriptUseModule.cs" />
     <Compile Include="Scripts\TestScript2.cs" />

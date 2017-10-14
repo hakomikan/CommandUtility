@@ -33,7 +33,7 @@ namespace CommandInterface
 
     public class RootSearcher
     {
-        public RootSearcher(IEnumerable<ISearcher> searchers)
+        public RootSearcher(params ISearcher[] searchers)
         {
             Searchers = searchers.ToList();
         }

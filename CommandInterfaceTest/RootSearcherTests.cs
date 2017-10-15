@@ -9,6 +9,26 @@ using TestUtility;
 
 namespace CommandInterface.Tests
 {
+    public class TestEnvironmentAccessor : IEnvironmentVariableAccessor
+    {
+        private Dictionary<string, string> Variables { get; set; }
+
+        public TestEnvironmentAccessor()
+        {
+            Variables = new Dictionary<string, string>();
+        }
+
+        public void Set(string name, string value)
+        {
+            Variables[name] = value;
+        }
+
+        public override string Get(string name)
+        {
+            return Variables[name];
+        }
+    }
+
     [TestClass()]
     public class RootSearcherTests : CommandInterfaceTest.CommandInterfaceTestBase
     {
@@ -27,12 +47,14 @@ namespace CommandInterface.Tests
                 FileUtility.OpenDirectory(tmpHolder.WorkSpaceDirectory);
 
                 Assert.Fail();
+                var env = new TestEnvironmentAccessor();
+                env.Set("HOME", homeDir.FullName);
 
                 var searcher = new RootSearcher(
-                    new ApplicationRelativeSearcher(),
-                    new DirectoryTreeSearcher(),
-                    new EnvironmentVariableSearcher(),
-                    new EnvironmentVariableSearcher()
+                    new ApplicationRelativeSearcher(appDir),
+                    new DirectoryTreeSearcher(curDir, "RootFile.txt"),
+                    new EnvironmentVariableSearcher("HOME", env),
+                    new EnvironmentVariableSearcher("SCRIPT_PATH", env)
                     );
             }
         }

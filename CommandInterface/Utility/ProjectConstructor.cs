@@ -23,12 +23,12 @@ namespace CommandInterface.Utility
 
         public void CreateProject(string baseName, DirectoryInfo projectRoot, List<FileInfo> fileList)
         {
-            var solutionPath = MakeFileInfo(projectRoot, baseName + ".sln");
-            var projectPath = MakeFileInfo(projectRoot, baseName + ".csproj");
-            var appConfigPath = MakeFileInfo(projectRoot, "App.config");
-            var packagesConfigPath = MakeFileInfo(projectRoot, "packages.config");
-            var assemblyInfoPath = MakeFileInfo(projectRoot, "./Properties/AssemblyInfo.cs");
-            var mainSourceCode = MakeFileInfo(projectRoot, "Program.cs");
+            var solutionPath = projectRoot.CombineAsFile(baseName + ".sln");
+            var projectPath = projectRoot.CombineAsFile(baseName + ".csproj");
+            var appConfigPath = projectRoot.CombineAsFile("App.config");
+            var packagesConfigPath = projectRoot.CombineAsFile("packages.config");
+            var assemblyInfoPath = projectRoot.CombineAsFile("Properties/AssemblyInfo.cs");
+            var mainSourceCode = projectRoot.CombineAsFile("Program.cs");
             var projectGuid = Guid.NewGuid();
             var projectRelativePath = GetRelativePath(CommandInterfaceProject.FullName, projectRoot.FullName);
             var commandInterfaceProjectInfo = new ProjectInfo(CommandInterfaceProject);

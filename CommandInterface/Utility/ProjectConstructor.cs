@@ -34,7 +34,7 @@ namespace CommandInterface.Utility
             var commandInterfaceProjectInfo = new ProjectInfo(CommandInterfaceProject);
             var commandInterfaceProjectGuid = ProjectInfo.ReadProjectGuid(CommandInterfaceProject);
 
-            CreateFile(projectPath, LoadAndWriteXml(ProjectTemplates.BasicTemplate, xdoc => {
+            projectPath.Create(LoadAndWriteXml(ProjectTemplates.BasicTemplate, xdoc => {
                 var rootNamespace = xdoc.Root.Name.Namespace;
                 foreach (var srcFile in fileList)
                 {
@@ -55,10 +55,10 @@ namespace CommandInterface.Utility
                             new XElement(rootNamespace + "Name", new XText("CommandInterface"))
                     )));
             }));
-            CreateFile(appConfigPath, LoadAndWriteXml(ProjectTemplates.BasicAppConfig));
-            CreateFile(packagesConfigPath, LoadAndWriteXml(ProjectTemplates.BasicPackageConfig));
-            CreateFile(assemblyInfoPath, ProjectTemplates.BasicAssemblyInfo);
-            CreateFile(mainSourceCode, ProjectTemplates.BasicMainSourceCode);
+            appConfigPath.Create(LoadAndWriteXml(ProjectTemplates.BasicAppConfig));
+            packagesConfigPath.Create(LoadAndWriteXml(ProjectTemplates.BasicPackageConfig));
+            assemblyInfoPath.Create(ProjectTemplates.BasicAssemblyInfo);
+            mainSourceCode.Create(ProjectTemplates.BasicMainSourceCode);
 
             var solutionConstructor = new SolutionConstructor(solutionPath, new FileInfo[] { CommandInterfaceProject, projectPath });
             solutionConstructor.Create();

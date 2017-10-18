@@ -9,15 +9,6 @@ namespace CommandInterface.Utility
 {
     public static class FileUtility
     {
-        public static void CreateFile(FileInfo fileInfo, string text)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(fileInfo.FullName));
-            using (var writer = fileInfo.CreateText())
-            {
-                writer.Write(text);
-            }
-        }
-
         public static string GetRelativePath(FileSystemInfo targetPath, FileInfo basePath)
         {
             return GetRelativePath(targetPath.FullName, Path.GetDirectoryName(basePath.FullName));
@@ -37,6 +28,18 @@ namespace CommandInterface.Utility
             }
             Uri baseUri = new Uri(basePath);
             return Uri.UnescapeDataString(baseUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+        }
+    }
+
+    public static class FileInfoExtensions
+    {
+        public static void Create(this FileInfo fileInfo, string text)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(fileInfo.FullName));
+            using (var writer = fileInfo.CreateText())
+            {
+                writer.Write(text);
+            }
         }
     }
 

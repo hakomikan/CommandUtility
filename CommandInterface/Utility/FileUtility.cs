@@ -9,16 +9,6 @@ namespace CommandInterface.Utility
 {
     public static class FileUtility
     {
-        public static string GetRelativePath(FileSystemInfo targetPath, FileInfo basePath)
-        {
-            return GetRelativePath(targetPath.FullName, Path.GetDirectoryName(basePath.FullName));
-        }
-
-        public static string GetRelativePath(FileSystemInfo targetPath, DirectoryInfo baseDirectory)
-        {
-            return GetRelativePath(targetPath.FullName, baseDirectory.FullName);
-        }
-
         public static string GetRelativePath(string targetPath, string basePath)
         {
             Uri pathUri = new Uri(targetPath);
@@ -31,15 +21,35 @@ namespace CommandInterface.Utility
         }
     }
 
+    public static class FileSystemInfoExtensions
+    {
+        public static string GetRelativePath(this FileSystemInfo targetPath, FileInfo basePath)
+        {
+            return FileUtility.GetRelativePath(
+                targetPath.FullName, basePath.GetDirectoryPath().FullName);
+        }
+
+        public static string GetRelativePath(this FileSystemInfo targetPath, DirectoryInfo basePath)
+        {
+            return FileUtility.GetRelativePath(
+                targetPath.FullName, basePath.FullName);
+        }
+    }
+
     public static class FileInfoExtensions
     {
         public static void Create(this FileInfo fileInfo, string text)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(fileInfo.FullName));
+            fileInfo.GetDirectoryPath().Create();
             using (var writer = fileInfo.CreateText())
             {
                 writer.Write(text);
             }
+        }
+
+        public static DirectoryInfo GetDirectoryPath(this FileInfo fileInfo)
+        {
+            return new DirectoryInfo(Path.GetDirectoryName(fileInfo.FullName));
         }
     }
 

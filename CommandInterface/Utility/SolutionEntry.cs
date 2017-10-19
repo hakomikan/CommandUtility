@@ -18,7 +18,7 @@ namespace CommandInterface.Utility
 
         public string MakeProjectDefinitonText(FileInfo solutionPath)
         {
-            var relativeProjectPath = FileUtility.GetRelativePath(ProjectInfo.Path, solutionPath);
+            var relativeProjectPath = ProjectInfo.Path.GetRelativePath(solutionPath);
             return $@"Project(""{{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}}"") = ""{ProjectInfo.Name}"", ""{relativeProjectPath}"", ""{{{ProjectInfo.GuidText}}}""
 EndProject";
         }

@@ -14,14 +14,14 @@ namespace CommandInterfaceTest
 {
     public class CommandRunner
     {
-        public static void RunCommand(string commandName, params string[] parameters)
+        public static int RunCommand(string commandName, params string[] parameters)
         {
-
+            return 1;
         }
     }
 
     [TestClass]
-    public class SpikeTest
+    public class SpikeTest : CommandInterfaceTestBase
     {
         [TestMethod]
         public async Task TestMethod1()
@@ -38,6 +38,12 @@ namespace CommandInterfaceTest
             RunCommand("delete", "new-command");
         }
 
+        [TestMethod]
+        public void SubCommandTest()
+        {
+            Assert.AreEqual(333, RunCommand("TestScript"));
+            Assert.AreEqual(666, RunCommand("TestScript2"));
+        }
 
     }
 }

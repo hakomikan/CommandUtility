@@ -7,19 +7,10 @@ using Microsoft.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using CommandInterface;
-using static CommandInterfaceTest.CommandRunner;
 using Microsoft.CodeAnalysis.Scripting.Hosting;
 
 namespace CommandInterfaceTest
 {
-    public class CommandRunner
-    {
-        public static int RunCommand(string commandName, params string[] parameters)
-        {
-            return 1;
-        }
-    }
-
     [TestClass]
     public class SpikeTest : CommandInterfaceTestBase
     {
@@ -38,11 +29,16 @@ namespace CommandInterfaceTest
             RunCommand("delete", "new-command");
         }
 
+        public int RunCommand(string commandName, params string[] parameters)
+        {
+            return CommandManager.Execute(commandName, parameters);
+        }
+
         [TestMethod]
         public void SubCommandTest()
         {
-            Assert.AreEqual(333, RunCommand("TestScript"));
-            Assert.AreEqual(666, RunCommand("TestScript2"));
+            Assert.AreEqual(333, RunCommand("test-script"));
+            Assert.AreEqual(666, RunCommand("test-script2"));
         }
 
     }

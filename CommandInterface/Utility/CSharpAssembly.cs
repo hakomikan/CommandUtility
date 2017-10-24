@@ -66,7 +66,7 @@ namespace CommandInterface.Utility
             }
         }
 
-        public static ReturnType ExecuteScriptFromFile<ReturnType>(FileInfo fileInfo)
+        public static ReturnType ExecuteScriptFromFile<ReturnType>(FileInfo fileInfo, params string[] parameters)
         {
             if(!fileInfo.Exists)
             {
@@ -82,7 +82,7 @@ namespace CommandInterface.Utility
             var targetMethods = targetClass.GetMethods();
             var methodBase = targetClass.GetMethod("Main", BindingFlags.Static | BindingFlags.Public);
 
-            return (ReturnType)methodBase.Invoke(null, null);
+            return (ReturnType)methodBase.Invoke(null, parameters);
         }
     }
 }

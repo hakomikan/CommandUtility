@@ -41,7 +41,7 @@ namespace CommandInterface
         public int Execute(string commandName, params string[] parameters)
         {
             var scriptFileInfo = new FileInfo(GetScriptPath(commandName));
-            return ExecuteScriptFromFile<int>(scriptFileInfo);
+            return ExecuteScriptFromFile<int>(scriptFileInfo, parameters);
         }
 
         private Config Config;

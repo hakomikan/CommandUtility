@@ -38,7 +38,7 @@ namespace CommandInterfaceTest
         public void SubCommandTest()
         {
             Assert.AreEqual(333, RunCommand("test-script"));
-            Assert.AreEqual(666, RunCommand("test-script2"));
+            Assert.AreEqual(666, RunCommand("test-script2", "3"));
         }
 
     }

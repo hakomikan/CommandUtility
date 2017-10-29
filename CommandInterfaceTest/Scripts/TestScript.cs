@@ -2,7 +2,7 @@
 {
     public class TestScript
     {
-        public static int Main()
+        public int Main()
         {
             return 333;
         }

@@ -319,6 +319,10 @@ namespace CommandUtility
             }
             else
             {
+                if(ParameterType == typeof(int))
+                {
+                    return int.Parse(v);
+                }
                 return Converter.Convert(ParameterType, v);
             }
         }

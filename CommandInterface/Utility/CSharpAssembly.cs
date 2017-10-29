@@ -79,10 +79,29 @@ namespace CommandInterface.Utility
 
             var types = assembly.GetTypes();
             var targetClass = types[0];
+
             var targetMethods = targetClass.GetMethods();
             var methodBase = targetClass.GetMethod("Main", BindingFlags.Static | BindingFlags.Public);
 
             return (ReturnType)methodBase.Invoke(null, parameters);
+        }
+
+        public static int ExecuteScriptFromFile(FileInfo fileInfo, params string[] parameters)
+        {
+            if (!fileInfo.Exists)
+            {
+                throw new ScriptNotFoundException();
+            }
+
+            var text = File.ReadAllText(fileInfo.FullName);
+
+            var assembly = Compile(text);
+
+            var types = assembly.GetTypes();
+            var targetClass = types[0];
+            var targetInterface = new CommandUtility.CommandInterface(targetClass);
+
+            return targetInterface.Run(parameters);
         }
     }
 }

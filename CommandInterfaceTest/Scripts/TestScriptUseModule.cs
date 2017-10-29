@@ -5,7 +5,7 @@ namespace CommandInterfaceTest.Scripts
 {
     public class TestScriptUseModule
     {
-        public static int Main()
+        public int Main()
         {
             return 444;
         }

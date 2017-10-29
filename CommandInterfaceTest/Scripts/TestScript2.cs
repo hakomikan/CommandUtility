@@ -2,9 +2,9 @@
 {
     public class TestScript2
     {
-        public static int Main(int intValue)
+        public int Main(int intValue)
         {
-            return 666;
+            return 666 + intValue;
         }
     }
 }
